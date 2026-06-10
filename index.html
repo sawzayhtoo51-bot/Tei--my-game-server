@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Spin Game</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .game-container {
+            max-width: 400px;
+            margin: auto;
+            background: #162447;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 20px rgba(0, 255, 203, 0.3);
+        }
+        h1 { color: #00fff3; }
+        .balance-box {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            background: #1f4068;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .slot-machine {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 4rem;
+            margin: 30px 0;
+            background: #0f172a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid #e94560;
+        }
+        .slot-box {
+            width: 80px;
+            height: 90px;
+            background: #1e293b;
+            border-radius: 5px;
+            line-height: 90px;
+        }
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        button {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 80%;
+        }
+        button:hover { background: #ff4866; transform: scale(1.05); }
+        .result-message {
+            margin-top: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .win { color: #4ecca3; }
+        .lose { color: #e94560; }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h1>🎰 LUCKY SPIN 🎰</h1>
+    <div class="balance-box">Your Balance: <span id="balance">5000</span> MMK</div>
+    
+    <div class="slot-machine">
+        <div class="slot-box" id="slot1">🍒</div>
+        <div class="slot-box" id="slot2">🍒</div>
+        <div class="slot-box" id="slot3">🍒</div>
+    </div>
+
+    <div>
+        <label for="betAmount">Bet Amount:</label><br>
+        <input type="number" id="betAmount" value="500" min="100">
+    </div>
+
+    <button onclick="playSpin()">SPIN 🎰</button>
+    <div class="result-message" id="result"></div>
+</div>
+
+<script>
+    const SERVER_URL = window.location.origin;
+
+    const playerId = 'p1'; 
+    const emojis = ['🍒', '🍋', '🍇', '🍉', '💎', '7️⃣'];
+
+    async function playSpin() {
+        const betAmount = parseInt(document.getElementById('betAmount').value);
+        const resultDiv = document.getElementById('result');
+        
+        resultDiv.innerText = "Spinning... 🎰";
+        resultDiv.className = "result-message";
+
+        let interval = setInterval(() => {
+            document.getElementById('slot1').innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            document.getElementById('slot2').innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            document.getElementById('slot3').innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        }, 100);
+
+        try {
+            const response = await fetch(`${SERVER_URL}/api/game/spin`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ playerId, betAmount })
+            });
+
+            const data = await response.json();
+            clearInterval(interval); 
+
+            if (!data.success && data.message) {
+                resultDiv.innerText = data.message;
+                resultDiv.className = "result-message lose";
+                return;
+            }
+
+            document.getElementById('balance').innerText = data.newBalance;
+
+            if (data.result === "WIN") {
+                document.getElementById('slot1').innerText = '💎';
+                document.getElementById('slot2').innerText = '💎';
+                document.getElementById('slot3').innerText = '💎';
+                resultDiv.innerText = `🎉 YOU WIN! +${data.winAmount} MMK`;
+                resultDiv.className = "result-message win";
+            } else {
+                document.getElementById('slot1').innerText = '🍒';
+                document.getElementById('slot2').innerText = '🍋';
+                document.getElementById('slot3').innerText = '🍉';
+                resultDiv.innerText = `❌ YOU LOSE! -${betAmount} MMK`;
+                resultDiv.className = "result-message lose";
+            }
+
+        } catch (error) {
+            clearInterval(interval);
+            resultDiv.innerText = "Server Connection Failed!";
+            resultDiv.className = "result-message lose";
+        }
+    }
+</script>
+
+</body>
+</html>
