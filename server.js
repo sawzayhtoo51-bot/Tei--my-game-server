@@ -1,70 +1,110 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-let players = [
-    { id: "p1", name: "Player One", balance: 5000 },
-    { id: "p2", name: "Player Two", balance: 10000 }
-];
+const MONGO_URI = "mongodb+srv://sawzayhtoo51_db_user:R7YZvndVohybHYlf@cluster0.6txhcxa.mongodb.net/gameDB?retryWrites=true&w=majority&appName=Cluster0";
 
-let gameSettings = {
-    winChancePercentage: 50 
-};
+mongoose.connect(MONGO_URI)
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch(err => console.error("Database Connection Error:", err));
 
-app.get('/api/admin/players', (req, res) => {
-    res.json(players);
+const PlayerSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    balance: { type: Number, default: 5000 }
+});
+const Player = mongoose.model('Player', PlayerSchema);
+
+let gameSettings = { winChancePercentage: 50 };
+
+app.post('/api/auth/register', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newPlayer = new Player({ username, password: hashedPassword });
+        await newPlayer.save();
+        res.json({ success: true, message: "Registration successful!" });
+    } catch (err) {
+        res.status(400).json({ success: false, message: "Username already exists!" });
+    }
 });
 
-app.post('/api/admin/update-balance', (req, res) => {
-    const { playerId, amount } = req.body;
-    const player = players.find(p => p.id === playerId);
-    if (player) {
-        player.balance = Number(amount);
-        return res.json({ success: true, message: "Balance updated successfully", player });
+app.post('/api/auth/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const player = await Player.findOne({ username });
+        if (!player) return res.status(400).json({ success: false, message: "User not found!" });
+
+        const isMatch = await bcrypt.compare(password, player.password);
+        if (!isMatch) return res.status(400).json({ success: false, message: "Wrong password!" });
+
+        res.json({ success: true, playerId: player._id, username: player.username, balance: player.balance });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
     }
-    res.status(404).json({ success: false, message: "Player not found" });
+});
+
+app.get('/api/admin/players', async (req, res) => {
+    try {
+        const players = await Player.find({}, '-password');
+        res.json(players);
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+});
+
+app.post('/api/admin/update-balance', async (req, res) => {
+    const { playerId, amount } = req.body;
+    try {
+        const player = await Player.findByIdAndUpdate(playerId, { balance: Number(amount) }, { new: true });
+        if (player) return res.json({ success: true, message: "Balance updated successfully", player });
+        res.status(404).json({ success: false, message: "Player not found" });
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
 });
 
 app.post('/api/admin/update-settings', (req, res) => {
     const { winChance } = req.body;
-    if (winChance >= 0 && winChance <= 100) {
-        gameSettings.winChancePercentage = Number(winChance);
-        return res.json({ success: true, message: `Win chance set to ${winChance}%` });
-    }
-    res.status(400).json({ success: false, message: "Invalid percentage" });
+    gameSettings.winChancePercentage = Number(winChance);
+    res.json({ success: true, message: `Win chance set to ${winChance}%` });
 });
 
-app.post('/api/game/spin', (req, res) => {
+app.post('/api/game/spin', async (req, res) => {
     const { playerId, betAmount } = req.body;
-    const player = players.find(p => p.id === playerId);
+    try {
+        const player = await Player.findById(playerId);
 
-    if (!player || player.balance < betAmount) {
-        return res.status(400).json({ success: false, message: "Insufficient balance or invalid player" });
-    }
-    const randomNumber = Math.floor(Math.random() * 100) + 1;
-    const isWin = randomNumber <= gameSettings.winChancePercentage;
+        if (!player || player.balance < betAmount) {
+            return res.status(400).json({ success: false, message: "Insufficient balance!" });
+        }
 
-    if (isWin) {
-        const winAmount = betAmount * 2;
-        player.balance += betAmount; 
-        res.json({ result: "WIN", winAmount: winAmount, newBalance: player.balance });
-    } else {
-        player.balance -= betAmount;
-        res.json({ result: "LOSE", winAmount: 0, newBalance: player.balance });
+        const randomNumber = Math.floor(Math.random() * 100) + 1;
+        const isWin = randomNumber <= gameSettings.winChancePercentage;
+
+        if (isWin) {
+            const winAmount = betAmount * 2;
+            player.balance += betAmount;
+            await player.save();
+            res.json({ result: "WIN", winAmount, newBalance: player.balance });
+        } else {
+            player.balance -= betAmount;
+            await player.save();
+            res.json({ result: "LOSE", winAmount: 0, newBalance: player.balance });
+        }
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
     }
 });
+
 app.use(express.static(__dirname));
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-app.get('/admin', (req, res) => {
-    res.sendFile(__dirname + '/admin.html');
-});
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get('/admin', (req, res) => res.sendFile(__dirname + '/admin.html'));
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
