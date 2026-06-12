@@ -12,15 +12,15 @@
             text-align: center;
             padding: 20px;
         }
-        .game-container {
+        .auth-container, .game-container {
             max-width: 400px;
-            margin: auto;
+            margin: 50px auto;
             background: #162447;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0px 0px 20px rgba(0, 255, 203, 0.3);
         }
-        h1 { color: #00fff3; }
+        h1, h2 { color: #00fff3; }
         .balance-box {
             font-size: 1.2rem;
             margin-bottom: 20px;
@@ -46,14 +46,16 @@
             border-radius: 5px;
             line-height: 90px;
         }
-        input[type="number"] {
-            width: 80%;
+        input {
+            width: 85%;
             padding: 10px;
             font-size: 1.1rem;
             border-radius: 5px;
             border: none;
             margin-bottom: 20px;
             text-align: center;
+            background: #e2e8f0;
+            color: #0f172a;
         }
         button {
             background: #e94560;
@@ -65,9 +67,12 @@
             border-radius: 25px;
             cursor: pointer;
             transition: 0.3s;
-            width: 80%;
+            width: 90%;
+            margin-bottom: 10px;
         }
         button:hover { background: #ff4866; transform: scale(1.05); }
+        .btn-alt { background: #00fff3; color: #0f172a; }
+        .btn-alt:hover { background: #00cccc; }
         .result-message {
             margin-top: 20px;
             font-size: 1.3rem;
@@ -75,13 +80,25 @@
         }
         .win { color: #4ecca3; }
         .lose { color: #e94560; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="game-container">
+<!-- Login & Register Screen -->
+<div id="auth-screen" class="auth-container">
+    <h2 id="auth-title">LOGIN TO GAME</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
+    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Switch to Register</button>
+    <div class="result-message" id="auth-msg"></div>
+</div>
+
+<!-- Game Main Screen -->
+<div id="game-screen" class="game-container hidden">
     <h1>🎰 LUCKY SPIN 🎰</h1>
-    <div class="balance-box">Your Balance: <span id="balance">5000</span> MMK</div>
+    <div class="balance-box">Welcome, <span id="user-display"></span> | Balance: <span id="balance">0</span> MMK</div>
     
     <div class="slot-machine">
         <div class="slot-box" id="slot1">🍒</div>
@@ -100,9 +117,54 @@
 
 <script>
     const SERVER_URL = window.location.origin;
-
-    const playerId = 'p1'; 
+    let playerId = "";
+    let isLoginMode = true;
     const emojis = ['🍒', '🍋', '🍇', '🍉', '💎', '7️⃣'];
+
+    function toggleAuthMode() {
+        isLoginMode = !isLoginMode;
+        document.getElementById('auth-title').innerText = isLoginMode ? "LOGIN TO GAME" : "CREATE ACCOUNT";
+        document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
+        document.getElementById('toggle-btn').innerText = isLoginMode ? "Switch to Register" : "Switch to Login";
+    }
+
+    async function handleAuth() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const msgDiv = document.getElementById('auth-msg');
+
+        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
+
+        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+        
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                if (isLoginMode) {
+                    playerId = data.playerId;
+                    document.getElementById('user-display').innerText = data.username;
+                    document.getElementById('balance').innerText = data.balance;
+                    document.getElementById('auth-screen').classList.add('hidden');
+                    document.getElementById('game-screen').classList.remove('hidden');
+                } else {
+                    msgDiv.innerText = "Registration successful! Now Please Login.";
+                    msgDiv.className = "result-message win";
+                    toggleAuthMode();
+                }
+            } else {
+                msgDiv.innerText = data.message;
+                msgDiv.className = "result-message lose";
+            }
+        } catch (e) {
+            msgDiv.innerText = "Connection Error!";
+        }
+    }
 
     async function playSpin() {
         const betAmount = parseInt(document.getElementById('betAmount').value);
@@ -127,8 +189,8 @@
             const data = await response.json();
             clearInterval(interval); 
 
-            if (!data.success && data.message) {
-                resultDiv.innerText = data.message;
+            if (response.status !== 200) {
+                resultDiv.innerText = data.message || "Error!";
                 resultDiv.className = "result-message lose";
                 return;
             }
