@@ -112,8 +112,10 @@ app.post('/api/game/spin', async (req, res) => {
     }
 });
 
-app.use(express.static(__dirname));
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
-app.get('/admin', (req, res) => res.sendFile(__dirname + '/admin.html'));
+const path = require('path');
+app.use(express.static(path.join(__dirname)));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
