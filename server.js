@@ -11,11 +11,11 @@ app.use(express.json());
 const MONGO_URI = "mongodb+srv://sawzayhtoo51_db_user:R7YZvndVohybHYlf@cluster0.6txhcxa.mongodb.net/gameDB?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
-    .then(() => console.log("MongoDB Connected Successfully"))
-    .catch(err => console.error("Database Connection Error:", err));
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.error("DB Error:", err));
 
 const PlayerSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true, lowercase: true, trim: true },
     password: { type: String, required: true },
     balance: { type: Number, default: 5000 }
 });
@@ -24,29 +24,41 @@ const Player = mongoose.model('Player', PlayerSchema);
 let gameSettings = { winChancePercentage: 50 };
 
 app.post('/api/auth/register', async (req, res) => {
-    const { username, password } = req.body;
     try {
+        const { username, password } = req.body;
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: "Missing fields" });
+        }
+        const existingUser = await Player.findOne({ username: username.toLowerCase().trim() });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: "Username already exists!" });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newPlayer = new Player({ username, password: hashedPassword });
+        const newPlayer = new Player({ username: username.toLowerCase().trim(), password: hashedPassword });
         await newPlayer.save();
         res.json({ success: true, message: "Registration successful!" });
     } catch (err) {
-        res.status(400).json({ success: false, message: "Username already exists!" });
+        res.status(500).json({ success: false, message: "Registration error" });
     }
 });
 
 app.post('/api/auth/login', async (req, res) => {
-    const { username, password } = req.body;
     try {
-        const player = await Player.findOne({ username });
-        if (!player) return res.status(400).json({ success: false, message: "User not found!" });
-
+        const { username, password } = req.body;
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: "Missing fields" });
+        }
+        const player = await Player.findOne({ username: username.toLowerCase().trim() });
+        if (!player) {
+            return res.status(400).json({ success: false, message: "User not found!" });
+        }
         const isMatch = await bcrypt.compare(password, player.password);
-        if (!isMatch) return res.status(400).json({ success: false, message: "Wrong password!" });
-
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Wrong password!" });
+        }
         res.json({ success: true, playerId: player._id, username: player.username, balance: player.balance });
     } catch (err) {
-        res.status(500).json({ success: false, message: "Server error" });
+        res.status(500).json({ success: false, message: "Server login error" });
     }
 });
 
@@ -60,10 +72,10 @@ app.get('/api/admin/players', async (req, res) => {
 });
 
 app.post('/api/admin/update-balance', async (req, res) => {
-    const { playerId, amount } = req.body;
     try {
+        const { playerId, amount } = req.body;
         const player = await Player.findByIdAndUpdate(playerId, { balance: Number(amount) }, { new: true });
-        if (player) return res.json({ success: true, message: "Balance updated successfully", player });
+        if (player) return res.json({ success: true, message: "Balance updated", player });
         res.status(404).json({ success: false, message: "Player not found" });
     } catch (err) {
         res.status(500).json({ success: false, message: "Server error" });
@@ -77,17 +89,14 @@ app.post('/api/admin/update-settings', (req, res) => {
 });
 
 app.post('/api/game/spin', async (req, res) => {
-    const { playerId, betAmount } = req.body;
     try {
+        const { playerId, betAmount } = req.body;
         const player = await Player.findById(playerId);
-
         if (!player || player.balance < betAmount) {
             return res.status(400).json({ success: false, message: "Insufficient balance!" });
         }
-
         const randomNumber = Math.floor(Math.random() * 100) + 1;
         const isWin = randomNumber <= gameSettings.winChancePercentage;
-
         if (isWin) {
             const winAmount = betAmount * 2;
             player.balance += betAmount;
