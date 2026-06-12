@@ -85,7 +85,6 @@
 </head>
 <body>
 
-<!-- Login & Register Screen -->
 <div id="auth-screen" class="auth-container">
     <h2 id="auth-title">LOGIN TO GAME</h2>
     <input type="text" id="username" placeholder="Username"><br>
@@ -95,7 +94,6 @@
     <div class="result-message" id="auth-msg"></div>
 </div>
 
-<!-- Game Main Screen -->
 <div id="game-screen" class="game-container hidden">
     <h1>🎰 LUCKY SPIN 🎰</h1>
     <div class="balance-box">Welcome, <span id="user-display"></span> | Balance: <span id="balance">0</span> MMK</div>
@@ -126,6 +124,7 @@
         document.getElementById('auth-title').innerText = isLoginMode ? "LOGIN TO GAME" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
         document.getElementById('toggle-btn').innerText = isLoginMode ? "Switch to Register" : "Switch to Login";
+        document.getElementById('auth-msg').innerText = "";
     }
 
     async function handleAuth() {
@@ -136,6 +135,7 @@
         if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
 
         const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+        msgDiv.innerText = isLoginMode ? "Logging in..." : "Registering...";
         
         try {
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
@@ -163,6 +163,7 @@
             }
         } catch (e) {
             msgDiv.innerText = "Connection Error!";
+            msgDiv.className = "result-message lose";
         }
     }
 
