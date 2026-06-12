@@ -5,63 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Control Dashboard</title>
     <style>
-        body {
-            background-color: #0f172a;
-            color: #e2e8f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 30px;
-        }
-        .dashboard-container {
-            max-width: 600px;
-            margin: auto;
-            background: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        h1 { text-align: center; color: #38bdf8; margin-bottom: 30px; }
-        .section {
-            background: #334155;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+        body { background-color: #0f172a; color: #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; }
+        .dashboard-container { max-width: 600px; margin: auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h1 { text-align: center; color: #38bdf8; margin-bottom: 25px; }
+        .section { background: #334155; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
         h3 { margin-top: 0; color: #94a3b8; border-bottom: 1px solid #475569; padding-bottom: 5px; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input[type="number"], select {
-            width: 95%;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #475569;
-            background: #1e293b;
-            color: white;
-        }
-        button {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-        }
+        input[type="number"], select { width: 95%; padding: 8px; border-radius: 4px; border: 1px solid #475569; background: #1e293b; color: white; }
+        button { background: #0284c7; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
         button:hover { background: #0369a1; }
-        #status-msg {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 15px;
-            color: #4ade80;
-        }
+        #status-msg { text-align: center; font-weight: bold; margin-top: 15px; color: #4ade80; }
+        .refresh-btn { background: #10b981; margin-bottom: 10px; }
+        .refresh-btn:hover { background: #059669; }
     </style>
 </head>
 <body>
-
 <div class="dashboard-container">
     <h1>🎛️ ADMIN CONTROL PANEL</h1>
-    
-    <!-- RTP/Odds Control System -->
     <div class="section">
         <h3>Game Odds Setting (RTP)</h3>
         <div class="form-group">
@@ -70,16 +31,12 @@
         </div>
         <button onclick="updateSettings()">Update Game Odds</button>
     </div>
-
-    <!-- Balance Adjustment System -->
     <div class="section">
         <h3>Player Management</h3>
+        <button class="refresh-btn" onclick="fetchPlayers()">🔄 Refresh Player List</button>
         <div class="form-group">
-            <label for="playerSelect">Select Player ID:</label>
-            <select id="playerSelect">
-                <option value="p1">Player One (p1)</option>
-                <option value="p2">Player Two (p2)</option>
-            </select>
+            <label for="playerSelect">Select Registered Player:</label>
+            <select id="playerSelect"><option value="">-- Click Refresh Button Above --</option></select>
         </div>
         <div class="form-group">
             <label for="newBalance">Set New Balance Amount (MMK):</label>
@@ -87,21 +44,30 @@
         </div>
         <button onclick="updateBalance()">Update Player Balance</button>
     </div>
-
     <div id="status-msg"></div>
 </div>
-
 <script>
     const SERVER_URL = window.location.origin;
-
-
     function showStatus(text, isError = false) {
         const msgDiv = document.getElementById('status-msg');
-        msgDiv.innerText = text;
-        msgDiv.style.color = isError ? '#f87171' : '#4ade80';
+        msgDiv.innerText = text; msgDiv.style.color = isError ? '#f87171' : '#4ade80';
         setTimeout(() => msgDiv.innerText = "", 3000);
     }
-
+    async function fetchPlayers() {
+        try {
+            const response = await fetch(`${SERVER_URL}/api/admin/players`);
+            const players = await response.json();
+            const select = document.getElementById('playerSelect');
+            select.innerHTML = "";
+            if(players.length === 0) { select.innerHTML = "<option>No players registered yet</option>"; return; }
+            players.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p._id; opt.innerText = `${p.username} (Bal: ${p.balance} MMK)`;
+                select.appendChild(opt);
+            });
+            showStatus("Player list updated!");
+        } catch (e) { showStatus("Failed to fetch players!", true); }
+    }
     async function updateSettings() {
         const winChance = document.getElementById('winChance').value;
         try {
@@ -111,21 +77,13 @@
                 body: JSON.stringify({ winChance })
             });
             const data = await response.json();
-            if (data.success) {
-                showStatus(data.message);
-            } else {
-                showStatus(data.message, true);
-            }
-        } catch (e) {
-            showStatus("Failed to connect server!", true);
-        }
+            showStatus(data.success ? data.message : data.message, !data.success);
+        } catch (e) { showStatus("Failed to connect server!", true); }
     }
-
     async function updateBalance() {
         const playerId = document.getElementById('playerSelect').value;
         const amount = document.getElementById('newBalance').value;
-        if(!amount) return showStatus("Please enter amount!", true);
-
+        if(!playerId || !amount) return showStatus("Please select player and enter amount!", true);
         try {
             const response = await fetch(`${SERVER_URL}/api/admin/update-balance`, {
                 method: 'POST',
@@ -133,16 +91,11 @@
                 body: JSON.stringify({ playerId, amount })
             });
             const data = await response.json();
-            if (data.success) {
-                showStatus(`Successfully set balance to ${data.player.balance} MMK`);
-            } else {
-                showStatus(data.message, true);
-            }
-        } catch (e) {
-            showStatus("Failed to connect server!", true);
-        }
+            if (data.success) { showStatus("Balance updated successfully!"); fetchPlayers(); }
+            else { showStatus(data.message, true); }
+        } catch (e) { showStatus("Failed to connect server!", true); }
     }
+    window.onload = fetchPlayers;
 </script>
-
 </body>
 </html>
