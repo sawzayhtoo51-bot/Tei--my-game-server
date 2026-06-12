@@ -3,113 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucky Spin Game</title>
+    <title>Premium Lucky Spin</title>
     <style>
         body {
-            background-color: #1a1a2e;
+            background: radial-gradient(circle, #1a0b2e 0%, #080314 100%);
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             text-align: center;
             padding: 20px;
+            margin: 0;
         }
         .auth-container, .game-container {
-            max-width: 400px;
-            margin: 50px auto;
-            background: #162447;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 20px rgba(0, 255, 203, 0.3);
+            max-width: 420px;
+            margin: 40px auto;
+            background: linear-gradient(145deg, #130724, #1f0d3a);
+            padding: 35px 25px;
+            border-radius: 24px;
+            border: 2px solid #ffd700;
+            box-shadow: 0px 0px 35px rgba(255, 215, 0, 0.2);
         }
-        h1, h2 { color: #00fff3; }
+        h1, h2 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #fff7ad, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            margin-top: 0;
+            letter-spacing: 2px;
+        }
         .balance-box {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            background: #1f4068;
-            padding: 10px;
-            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #fff3a1;
         }
         .slot-machine {
             display: flex;
             justify-content: center;
             gap: 15px;
-            font-size: 4rem;
-            margin: 30px 0;
-            background: #0f172a;
-            padding: 20px;
-            border-radius: 10px;
-            border: 3px solid #e94560;
+            font-size: 4.5rem;
+            margin: 25px 0;
+            background: #05020a;
+            padding: 25px 15px;
+            border-radius: 20px;
+            border: 3px double #ffd700;
+            box-shadow: inset 0px 0px 20px rgba(0,0,0,0.9);
         }
         .slot-box {
-            width: 80px;
-            height: 90px;
-            background: #1e293b;
-            border-radius: 5px;
-            line-height: 90px;
+            width: 90px;
+            height: 100px;
+            background: linear-gradient(180deg, #2c144d, #140726);
+            border-radius: 12px;
+            line-height: 100px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: transform 0.1s ease;
+        }
+        .spinning {
+            animation: bounce 0.1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(-4px); }
+            to { transform: translateY(4px); }
         }
         input {
             width: 85%;
-            padding: 10px;
+            padding: 12px;
             font-size: 1.1rem;
-            border-radius: 5px;
-            border: none;
+            border-radius: 30px;
+            border: 2px solid #ffd700;
             margin-bottom: 20px;
             text-align: center;
-            background: #e2e8f0;
-            color: #0f172a;
+            background: #0f061c;
+            color: #ffffff;
+            outline: none;
+        }
+        input:focus {
+            box-shadow: 0px 0px 10px rgba(255, 215, 0, 0.5);
+        }
+        label {
+            font-size: 1rem;
+            color: #ffd700;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         button {
-            background: #e94560;
+            background: linear-gradient(180deg, #ff416c, #ff4b2b);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 90%;
-            margin-bottom: 10px;
-        }
-        button:hover { background: #ff4866; transform: scale(1.05); }
-        .btn-alt { background: #00fff3; color: #0f172a; }
-        .btn-alt:hover { background: #00cccc; }
-        .result-message {
-            margin-top: 20px;
+            padding: 14px 30px;
             font-size: 1.3rem;
             font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0px 6px 20px rgba(255, 75, 43, 0.4);
+            transition: 0.2s;
+            width: 90%;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .win { color: #4ecca3; }
-        .lose { color: #e94560; }
+        button:hover {
+            background: linear-gradient(180deg, #ff527b, #ff5b3f);
+            transform: translateY(-2px);
+            box-shadow: 0px 8px 25px rgba(255, 75, 43, 0.6);
+        }
+        button:active {
+            transform: translateY(1px);
+        }
+        .btn-alt {
+            background: transparent;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            box-shadow: none;
+        }
+        .btn-alt:hover {
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.3);
+        }
+        .result-message {
+            margin-top: 22px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            min-height: 35px;
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.8);
+        }
+        .win {
+            color: #00ff88;
+            animation: pulse 0.5s infinite alternate;
+        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+        .lose { color: #ff4b2b; }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <div id="auth-screen" class="auth-container">
-    <h2 id="auth-title">LOGIN TO GAME</h2>
-    <input type="text" id="username" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
+    <h2 id="auth-title">CASINO LOGIN</h2>
+    <input type="text" id="username" placeholder="Enter Username"><br>
+    <input type="password" id="password" placeholder="Enter Password"><br>
     <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
-    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Switch to Register</button>
+    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
     <div class="result-message" id="auth-msg"></div>
 </div>
 
 <div id="game-screen" class="game-container hidden">
-    <h1>🎰 LUCKY SPIN 🎰</h1>
-    <div class="balance-box">Welcome, <span id="user-display"></span> | Balance: <span id="balance">0</span> MMK</div>
+    <h1>👑 ROYAL SPIN 👑</h1>
+    <div class="balance-box">User: <span id="user-display" style="color:#ffd700;"></span> | Balance: <span id="balance" style="color:#00ff88; font-weight:bold;">0</span> MMK</div>
     
     <div class="slot-machine">
-        <div class="slot-box" id="slot1">🍒</div>
-        <div class="slot-box" id="slot2">🍒</div>
-        <div class="slot-box" id="slot3">🍒</div>
+        <div class="slot-box" id="slot1">💰</div>
+        <div class="slot-box" id="slot2">💰</div>
+        <div class="slot-box" id="slot3">💰</div>
     </div>
 
     <div>
-        <label for="betAmount">Bet Amount:</label><br>
+        <label for="betAmount">SELECT BET (MMK)</label><br><br>
         <input type="number" id="betAmount" value="500" min="100">
     </div>
 
-    <button onclick="playSpin()">SPIN 🎰</button>
+    <button onclick="playSpin()">SPIN NOW 🎰</button>
     <div class="result-message" id="result"></div>
 </div>
 
@@ -117,13 +177,13 @@
     const SERVER_URL = window.location.origin;
     let playerId = "";
     let isLoginMode = true;
-    const emojis = ['🍒', '🍋', '🍇', '🍉', '💎', '7️⃣'];
+    const emojis = ['🍒', '👑', '💰', '🍉', '💎', '7️⃣'];
 
     function toggleAuthMode() {
         isLoginMode = !isLoginMode;
-        document.getElementById('auth-title').innerText = isLoginMode ? "LOGIN TO GAME" : "CREATE ACCOUNT";
+        document.getElementById('auth-title').innerText = isLoginMode ? "CASINO LOGIN" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-        document.getElementById('toggle-btn').innerText = isLoginMode ? "Switch to Register" : "Switch to Login";
+        document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
     }
 
@@ -135,7 +195,7 @@
         if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
 
         const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
-        msgDiv.innerText = isLoginMode ? "Logging in..." : "Registering...";
+        msgDiv.innerText = isLoginMode ? "Connecting..." : "Creating...";
         
         try {
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
@@ -153,7 +213,7 @@
                     document.getElementById('auth-screen').classList.add('hidden');
                     document.getElementById('game-screen').classList.remove('hidden');
                 } else {
-                    msgDiv.innerText = "Registration successful! Now Please Login.";
+                    msgDiv.innerText = "Account Created! Please Login Now.";
                     msgDiv.className = "result-message win";
                     toggleAuthMode();
                 }
@@ -162,7 +222,7 @@
                 msgDiv.className = "result-message lose";
             }
         } catch (e) {
-            msgDiv.innerText = "Connection Error!";
+            msgDiv.innerText = "Server Error!";
             msgDiv.className = "result-message lose";
         }
     }
@@ -171,14 +231,22 @@
         const betAmount = parseInt(document.getElementById('betAmount').value);
         const resultDiv = document.getElementById('result');
         
-        resultDiv.innerText = "Spinning... 🎰";
+        resultDiv.innerText = "GOOD LUCK... 🎰";
         resultDiv.className = "result-message";
 
+        const s1 = document.getElementById('slot1');
+        const s2 = document.getElementById('slot2');
+        const s3 = document.getElementById('slot3');
+
+        s1.classList.add('spinning');
+        s2.classList.add('spinning');
+        s3.classList.add('spinning');
+
         let interval = setInterval(() => {
-            document.getElementById('slot1').innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            document.getElementById('slot2').innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            document.getElementById('slot3').innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        }, 100);
+            s1.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            s2.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            s3.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        }, 80);
 
         try {
             const response = await fetch(`${SERVER_URL}/api/game/spin`, {
@@ -189,6 +257,10 @@
 
             const data = await response.json();
             clearInterval(interval); 
+            
+            s1.classList.remove('spinning');
+            s2.classList.remove('spinning');
+            s3.classList.remove('spinning');
 
             if (response.status !== 200) {
                 resultDiv.innerText = data.message || "Error!";
@@ -199,26 +271,6 @@
             document.getElementById('balance').innerText = data.newBalance;
 
             if (data.result === "WIN") {
-                document.getElementById('slot1').innerText = '💎';
-                document.getElementById('slot2').innerText = '💎';
-                document.getElementById('slot3').innerText = '💎';
-                resultDiv.innerText = `🎉 YOU WIN! +${data.winAmount} MMK`;
-                resultDiv.className = "result-message win";
-            } else {
-                document.getElementById('slot1').innerText = '🍒';
-                document.getElementById('slot2').innerText = '🍋';
-                document.getElementById('slot3').innerText = '🍉';
-                resultDiv.innerText = `❌ YOU LOSE! -${betAmount} MMK`;
-                resultDiv.className = "result-message lose";
-            }
-
-        } catch (error) {
-            clearInterval(interval);
-            resultDiv.innerText = "Server Connection Failed!";
-            resultDiv.className = "result-message lose";
-        }
-    }
-</script>
-
-</body>
-</html>
+                s1.innerText = '💎';
+                s2.innerText = '💎';
+                s3.innerText = '💎';
