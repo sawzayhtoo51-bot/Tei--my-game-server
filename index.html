@@ -53,7 +53,7 @@
         .game-title { padding: 8px; font-size: 0.85rem; text-align: center; font-weight: bold; background: #130524; }
         .hot-badge { position: absolute; top: 5px; right: 5px; background: red; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
 
-        .slot-machine { display: flex; justify-content: center; gap: 12px; font-size: 4rem; margin: 20px 0; background: #05020a; padding: 20px 10px; border-radius: 15px; border: 2px double #ffd700; }
+        .slot-machine { display: flex; justify-content: center; gap: 12px; font-size: 2.5rem; font-weight: bold; color: #ffd700; margin: 20px 0; background: #05020a; padding: 20px 10px; border-radius: 15px; border: 2px double #ffd700; }
         .slot-box { width: 80px; height: 90px; background: linear-gradient(180deg, #2c144d, #140726); border-radius: 12px; line-height: 90px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.2); }
 
         .payment-box { background: #1c0835; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-top: 10px; }
@@ -97,7 +97,7 @@
             <div class="cat-item">Fish</div>
         </div>
         <div class="page-section">
-            <div class="section-title">🔥 Hot Games</div>
+            <div class="section-title">Hot Games</div>
             <div class="game-grid">
                 <div class="game-card" onclick="switchPage('game-slot')">
                     <span class="hot-badge">HOT</span>
@@ -122,22 +122,22 @@
     </div>
 
     <div id="page-game-slot" class="page-section hidden">
-        <div class="section-title">🎰 AFRICAN BUFFALO SLOT</div>
+        <div class="section-title">AFRICAN BUFFALO SLOT</div>
         <div class="slot-machine">
-            <div class="slot-box" id="slot1">💰</div>
-            <div class="slot-box" id="slot2">💰</div>
-            <div class="slot-box" id="slot3">💰</div>
+            <div class="slot-box" id="slot1">BAR</div>
+            <div class="slot-box" id="slot2">BAR</div>
+            <div class="slot-box" id="slot3">BAR</div>
         </div>
         <div style="margin-bottom: 20px;">
             <label for="betAmount">SELECT BET (MMK)</label><br><br>
             <input type="number" id="betAmount" value="500" min="100">
         </div>
-        <button onclick="playSpin()">SPIN NOW 🎰</button>
+        <button onclick="playSpin()">SPIN NOW</button>
         <div class="result-message" style="font-size: 1.3rem; font-weight: bold; margin-top: 15px;" id="result"></div>
     </div>
 
     <div id="page-deposit" class="page-section hidden">
-        <div class="section-title">💵 DEPOSIT WALLET</div>
+        <div class="section-title">DEPOSIT WALLET</div>
         <div class="payment-box">
             <div class="pay-info">
                 <strong>KBZ Pay (Kpay)</strong><br>
@@ -154,7 +154,7 @@
     </div>
 
     <div id="page-withdraw" class="page-section hidden">
-        <div class="section-title">💸 WITHDRAW REQUEST</div>
+        <div class="section-title">WITHDRAW REQUEST</div>
         <div class="payment-box">
             <input type="text" id="drawMethod" placeholder="Payment Method (Kpay / Wave)"><br>
             <input type="text" id="drawPhone" placeholder="Your Phone Number"><br>
@@ -164,10 +164,10 @@
     </div>
 
     <div id="main-nav" class="footer-nav hidden">
-        <div class="nav-item active" id="nav-home" onclick="switchPage('home')">🏠<span>Home</span></div>
-        <div class="nav-item" id="nav-deposit" onclick="switchPage('deposit')">💰<span>Deposit</span></div>
-        <div class="nav-item" id="nav-withdraw" onclick="switchPage('withdraw')">💸<span>Withdraw</span></div>
-        <div class="nav-item" onclick="location.reload()">🚪<span>Logout</span></div>
+        <div class="nav-item active" id="nav-home" onclick="switchPage('home')">Home</div>
+        <div class="nav-item" id="nav-deposit" onclick="switchPage('deposit')">Deposit</div>
+        <div class="nav-item" id="nav-withdraw" onclick="switchPage('withdraw')">Withdraw</div>
+        <div class="nav-item" onclick="location.reload()">Logout</div>
     </div>
 
 </div>
@@ -176,8 +176,9 @@
     const SERVER_URL = window.location.origin;
     let playerId = "";
     let isLoginMode = true;
-    const emojis = ['🍒', '👑', '💰', '🍉', '💎', '7️⃣'];
+    const emojis = ['WIN', 'GOLD', '777', 'JACKPOT', 'LUCKY', 'WILD'];
 
     function toggleAuthMode() {
         isLoginMode = !isLoginMode;
         document.getElementById('auth-title').innerText = isLoginMode ? "CASINO LOGIN" : "CREATE ACCOUNT";
+        document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
