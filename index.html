@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUFFALO 688 - Royal Casino</title>
+    <title>BUFFALO 688 - Premium Lobby</title>
     <style>
         body {
             background-color: #0b0214;
             color: #ffffff;
             font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0; padding: 0; text-align: center;
+            margin: 0;
+            padding: 0;
+            text-align: center;
         }
         .auth-container {
-            max-width: 400px; margin: 80px auto;
+            max-width: 400px;
+            margin: 80px auto;
             background: linear-gradient(145deg, #130724, #1f0d3a);
-            padding: 35px 25px; border-radius: 24px;
-            border: 2px solid #ffd700; box-shadow: 0px 0px 35px rgba(255, 215, 0, 0.2);
+            padding: 35px 25px;
+            border-radius: 24px;
+            border: 2px solid #ffd700;
+            box-shadow: 0px 0px 35px rgba(255, 215, 0, 0.2);
         }
         input {
             width: 85%; padding: 12px; font-size: 1.1rem; border-radius: 30px;
@@ -30,41 +35,76 @@
         .btn-alt { background: transparent; color: #ffd700; border: 2px solid #ffd700; }
         
         .lobby-container {
-            max-width: 480px; margin: auto; background: #110521; min-height: 100vh; padding-bottom: 80px;
+            max-width: 480px;
+            margin: auto;
+            background: #110521;
+            min-height: 100vh;
+            padding-bottom: 80px;
         }
         .header-bar {
-            background: #1c0835; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ffd700;
+            background: #1c0835;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ffd700;
         }
         .logo-text { font-size: 1.5rem; font-weight: bold; color: #ffd700; }
         .user-info { color: #00ff88; font-weight: bold; }
         
         .banner-box {
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://unsplash.com');
-            background-size: cover; background-position: center; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #ffd700; border-bottom: 1px solid #ffd700;
+            background-size: cover;
+            background-position: center;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            border-bottom: 1px solid #ffd700;
         }
-        .category-bar { display: flex; justify-content: space-around; background: #17072c; padding: 10px 0; font-size: 0.9rem; color: #bfa0ff; }
+
+        .category-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #17072c;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            color: #bfa0ff;
+        }
         .cat-item.active { color: #ffd700; font-weight: bold; border-bottom: 2px solid #ffd700; }
 
-        .page-section { padding: 15px; text-align: left; }
+        .games-section { padding: 15px; text-align: left; }
         .section-title { font-size: 1.1rem; color: #ffd700; margin-bottom: 10px; font-weight: bold; }
-        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .game-card { background: #1e0c33; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 215, 0, 0.2); cursor: pointer; position: relative; }
-        .game-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
-        .game-title { padding: 8px; font-size: 0.85rem; text-align: center; font-weight: bold; background: #130524; }
-        .hot-badge { position: absolute; top: 5px; right: 5px; background: red; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: bold; }
-
-        .slot-machine { display: flex; justify-content: center; gap: 12px; font-size: 2.5rem; font-weight: bold; color: #ffd700; margin: 20px 0; background: #05020a; padding: 20px 10px; border-radius: 15px; border: 2px double #ffd700; }
-        .slot-box { width: 80px; height: 90px; background: linear-gradient(180deg, #2c144d, #140726); border-radius: 12px; line-height: 90px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.2); }
-
-        .payment-box { background: #1c0835; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-top: 10px; }
-        .pay-info { background: #0f061c; padding: 12px; border-radius: 8px; border-left: 4px solid #ffd700; margin-bottom: 15px; font-size: 0.95rem; }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .game-card {
+            background: #1e0c33;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+        }
+        .game-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+        .game-title { padding: 8px; font-size: 0.9rem; text-align: center; font-weight: bold; background: #130524; }
+        .hot-badge {
+            position: absolute; top: 5px; right: 5px; background: red;
+            color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
+        }
 
         .footer-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 480px; background: #1c0835;
-            display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid #ffd700; box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            display: flex; justify-content: space-around; padding: 12px 0;
+            border-top: 2px solid #ffd700;
         }
-        .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+        .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; }
         .nav-item.active { color: #ffd700; font-weight: bold; }
 
         .hidden { display: none; }
@@ -72,101 +112,66 @@
 </head>
 <body>
 
-<div class="lobby-container">
-    
-    <div id="top-header" class="header-bar hidden">
-        <div class="logo-text">BUFFALO 688</div>
-        <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
-    </div>
-
-    <div id="auth-screen" class="auth-container">
+<div id="auth-screen" class="auth-container">
     <h2 id="auth-title">CASINO LOGIN</h2>
     <input type="text" id="username" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br>
     <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
     <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
+</div>
+
+<div id="lobby-screen" class="lobby-container hidden">
+    
+    <div class="header-bar">
+        <div class="logo-text">BUFFALO 688</div>
+        <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
 
-    <div id="page-home" class="hidden">
-        <div class="banner-box">WELCOME TO BUFFALO 688</div>
-        <div class="category-bar">
-            <div class="cat-item active">Popular</div>
-            <div class="cat-item">Slots</div>
-            <div class="cat-item">Cards</div>
-            <div class="cat-item">Fish</div>
-        </div>
-        <div class="page-section">
-            <div class="section-title">Hot Games</div>
-            <div class="game-grid">
-                <div class="game-card" onclick="switchPage('game-slot')">
-                    <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Buffalo">
-                    <div class="game-title">AFRICAN BUFFALO</div>
-                </div>
-                <div class="game-card" onclick="alert('Shan Koe Mee table connecting...')">
-                    <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Cards">
-                    <div class="game-title">SHAN KOE MEE</div>
-                </div>
-                <div class="game-card" onclick="alert('BuGyee table connecting...')">
-                    <img src="https://unsplash.com" alt="BuGyee">
-                    <div class="game-title">BU GYEE</div>
-                </div>
-                <div class="game-card" onclick="alert('Fish Hunter game connecting...')">
-                    <img src="https://unsplash.com" alt="Fish">
-                    <div class="game-title">OCEAN KING FISH</div>
-                </div>
+    <div class="banner-box">
+        WELCOME TO BUFFALO 688
+    </div>
+
+    <div class="category-bar">
+        <div class="cat-item active">Popular</div>
+        <div class="cat-item">Slots</div>
+        <div class="cat-item">Cards</div>
+        <div class="cat-item">Fish</div>
+    </div>
+
+    <div class="games-section">
+        <div class="section-title">🔥 Hot Games</div>
+        <div class="game-grid">
+            
+            <div class="game-card" onclick="playGame('buffalo')">
+                <span class="hot-badge">HOT</span>
+                <img src="https://unsplash.com" alt="Buffalo">
+                <div class="game-title">AFRICAN BUFFALO</div>
             </div>
-        </div>
-    </div>
 
-    <div id="page-game-slot" class="page-section hidden">
-        <div class="section-title">AFRICAN BUFFALO SLOT</div>
-        <div class="slot-machine">
-            <div class="slot-box" id="slot1">BAR</div>
-            <div class="slot-box" id="slot2">BAR</div>
-            <div class="slot-box" id="slot3">BAR</div>
-        </div>
-        <div style="margin-bottom: 20px;">
-            <label for="betAmount">SELECT BET (MMK)</label><br><br>
-            <input type="number" id="betAmount" value="500" min="100">
-        </div>
-        <button onclick="playSpin()">SPIN NOW</button>
-        <div class="result-message" style="font-size: 1.3rem; font-weight: bold; margin-top: 15px;" id="result"></div>
-    </div>
-
-    <div id="page-deposit" class="page-section hidden">
-        <div class="section-title">DEPOSIT WALLET</div>
-        <div class="payment-box">
-            <div class="pay-info">
-                <strong>KBZ Pay (Kpay)</strong><br>
-                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
-                Name: ZAW MIN HTUT
+            <div class="game-card" onclick="playGame('shan')">
+                <span class="hot-badge">HOT</span>
+                <img src="https://unsplash.com" alt="Cards">
+                <div class="game-title">SHAN KOE MEE</div>
             </div>
-            <div class="pay-info">
-                <strong>Wave Pay</strong><br>
-                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
-                Name: ZAW MIN HTUT
+
+            <div class="game-card" onclick="playGame('dice')">
+                <img src="https://unsplash.com" alt="Dice">
+                <div class="game-title">DICE MASTER</div>
             </div>
-            <p style="font-size:0.85rem; color:#a594bd;">Please transfer money to above accounts and contact admin with screenshot.</p>
+
+            <div class="game-card" onclick="alert('Coming Soon!')">
+                <img src="https://unsplash.com" alt="Casino">
+                <div class="game-title">COMING SOON</div>
+            </div>
+
         </div>
     </div>
 
-    <div id="page-withdraw" class="page-section hidden">
-        <div class="section-title">WITHDRAW REQUEST</div>
-        <div class="payment-box">
-            <input type="text" id="drawMethod" placeholder="Payment Method (Kpay / Wave)"><br>
-            <input type="text" id="drawPhone" placeholder="Your Phone Number"><br>
-            <input type="number" id="drawAmount" placeholder="Withdraw Amount (MMK)"><br>
-            <button onclick="alert('Withdraw Request Submitted to Admin!')">SUBMIT WITHDRAW</button>
-        </div>
-    </div>
-
-    <div id="main-nav" class="footer-nav hidden">
-        <div id="nav-home" class="nav-item active" onclick="switchPage('home')">Home</div>
-        <div id="nav-deposit" class="nav-item" onclick="switchPage('deposit')">Deposit</div>
-        <div id="nav-withdraw" class="nav-item" onclick="switchPage('withdraw')">Withdraw</div>
+    <div class="footer-nav">
+        <div class="nav-item active">Home</div>
+        <div class="nav-item" onclick="alert('Cash Out system!')">Withdraw</div>
+        <div class="nav-item" onclick="alert('Deposit system!')">Deposit</div>
         <div class="nav-item" onclick="location.reload()">Logout</div>
     </div>
 
@@ -176,7 +181,6 @@
     const SERVER_URL = window.location.origin;
     let playerId = "";
     let isLoginMode = true;
-    const emojis = ['WIN', 'GOLD', '777', 'JACKPOT', 'LUCKY', 'WILD'];
 
     function toggleAuthMode() {
         isLoginMode = !isLoginMode;
@@ -185,3 +189,50 @@
         document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
     }
+
+    async function handleAuth() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const msgDiv = document.getElementById('auth-msg');
+
+        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
+
+        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+        msgDiv.innerText = "Connecting...";
+        
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                if (isLoginMode) {
+                    playerId = data.playerId;
+                    document.getElementById('user-display').innerText = data.username;
+                    document.getElementById('balance').innerText = data.balance;
+                    document.getElementById('auth-screen').classList.add('hidden');
+                    document.getElementById('lobby-screen').classList.remove('hidden');
+                } else {
+                    msgDiv.innerText = "Account Created! Please Login.";
+                    msgDiv.style.color = "#00ff88";
+                    toggleAuthMode();
+                }
+            } else {
+                msgDiv.innerText = data.message;
+                msgDiv.style.color = "#ff4b2b";
+            }
+        } catch (e) {
+            msgDiv.innerText = "Server Error!";
+        }
+    }
+
+    function playGame(gameName) {
+        alert("Starting " + gameName + " game! Connect your game window here.");
+    }
+</script>
+
+</body>
+</html>
