@@ -111,9 +111,6 @@
             transform: translateY(-2px);
             box-shadow: 0px 8px 25px rgba(255, 75, 43, 0.6);
         }
-        button:active {
-            transform: translateY(1px);
-        }
         .btn-alt {
             background: transparent;
             color: #ffd700;
@@ -150,7 +147,7 @@
     <input type="text" id="username" placeholder="Enter Username"><br>
     <input type="password" id="password" placeholder="Enter Password"><br>
     <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
-    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
+    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">REGISTER ACCOUNT</button>
     <div class="result-message" id="auth-msg"></div>
 </div>
 
@@ -183,7 +180,7 @@
         isLoginMode = !isLoginMode;
         document.getElementById('auth-title').innerText = isLoginMode ? "CASINO LOGIN" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-        document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
+        document.getElementById('toggle-btn').innerText = isLoginMode ? "REGISTER ACCOUNT" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
     }
 
@@ -274,3 +271,4 @@
                 s1.innerText = '💎';
                 s2.innerText = '💎';
                 s3.innerText = '💎';
+                resultDiv.innerText = `🎉 BIG WIN! +${data.winAmount} MMK`;
