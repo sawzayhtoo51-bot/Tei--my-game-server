@@ -3,7 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(express.json());
@@ -11,8 +11,8 @@ app.use(express.json());
 const MONGO_URI = "mongodb+srv://sawzayhtoo51_db_user:R7YZvndVohybHYlf@cluster0.6txhcxa.mongodb.net/gameDB?retryWrites=true&w=majority&appName=Cluster0";
 
 mongoose.connect(MONGO_URI)
-    .then(() => console.log("MongoDB Connected"))
-    .catch(err => console.error("DB Error:", err));
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch(err => console.error("Database Connection Error:", err));
 
 const PlayerSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true, lowercase: true, trim: true },
@@ -112,10 +112,8 @@ app.post('/api/game/spin', async (req, res) => {
     }
 });
 
-const path = require('path');
-app.use(express.static(path.join(__dirname)));
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
-
+app.use(express.static(__dirname));
+app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get('/admin', (req, res) => res.sendFile(__dirname + '/admin.html'));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
