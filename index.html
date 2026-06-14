@@ -103,15 +103,154 @@
             width: 100%; max-width: 480px; background: #1c0835;
             display: flex; justify-content: space-around; padding: 12px 0;
             border-top: 2px solid #ffd700;
+            z-index: 100;
         }
         .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; }
         .nav-item.active { color: #ffd700; font-weight: bold; }
 
         .hidden { display: none; }
+
+        /* ===== ကစားဝိုင်းအခန်းရွေးချယ်ခြင်း ဆိုင်ရာ CSS Styles ===== */
+        .room-screen-container {
+            max-width: 480px;
+            margin: auto;
+            background: #0b0214;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .station-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+        }
+
+        .station {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            padding: 8px 12px;
+        }
+
+        .player-seat {
+            width: 100px;
+            height: 70px;
+            background: #2a1145;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00ff88;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        .player-seat.empty {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed #666;
+            color: #777;
+            box-shadow: none;
+        }
+
+        .slot-machine {
+            width: 130px;
+            height: 70px;
+            background: #222;
+            border: 2px solid #ffcc00;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px;
+        }
+
+        .machine-logo {
+            background: #ff0055;
+            color: #fff;
+            font-size: 8px;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            padding: 1px 0;
+        }
+
+        .machine-screen {
+            background: #333;
+            width: 100%;
+            height: 40px;
+            border: 1px solid #ffcc00;
+            background-image: repeating-linear-gradient(0deg, #333, #333 2px, #444 2px, #444 4px);
+        }
+
+        .back-btn {
+            background: #ff0055;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ညာဘက်အောက်ခြေ Dropdown Box ဒီဇိုင်း */
+        .room-selector-box {
+            position: absolute;
+            bottom: 90px;
+            right: 15px;
+            width: 160px;
+            background: #110222;
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            z-index: 50;
+        }
+
+        .selector-header {
+            background: #ff416c;
+            color: white;
+            text-align: center;
+            padding: 6px 5px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .room-list {
+            max-height: 140px;
+            overflow-y: scroll;
+        }
+
+        .room-list::-webkit-scrollbar { width: 6px; }
+        .room-list::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 3px; }
+        .room-list::-webkit-scrollbar-track { background: #1a0830; }
+
+        .room-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            color: #fff;
+            font-size: 12px;
+            border-bottom: 1px solid #2a1145;
+            cursor: pointer;
+        }
+
+        .room-item:hover { background: #2a0f4d; }
+        .room-item.active { background: #ff4b2b; color: white; font-weight: bold; }
+        .room-status { color: #00ff88; }
+        .room-status.full { color: #ff3333; }
     </style>
 </head>
 <body>
 
+<!-- ၁။ Login / Register Screen -->
 <div id="auth-screen" class="auth-container">
     <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
     <input type="text" id="username" placeholder="Username"><br>
@@ -121,168 +260,26 @@
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
 
+<!-- ၂။ Lobby Main Screen -->
 <div id="lobby-screen" class="lobby-container hidden">
-    
     <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
-
-    <div class="banner-box">
-        WELCOME TO DOUBLE QUEENS
-    </div>
-
+    <div class="banner-box">WELCOME TO DOUBLE QUEENS</div>
     <div class="category-bar">
         <div class="cat-item active">Popular</div>
         <div class="cat-item">Slots</div>
         <div class="cat-item">Cards</div>
         <div class="cat-item">Fish</div>
     </div>
-
     <div class="games-section">
         <div class="section-title">🔥 Hot Games</div>
         <div class="game-grid">
-            
-            <div class="game-card" onclick="alert('Starting Buffalo Game...')">
-                    <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Buffalo">
-                    <div class="game-title">AFRICAN BUFFALO</div>
-                </div>
-
-                <div class="game-card" onclick="alert('Shan Koe Mee Table Loading...')">
-                    <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Cards">
-                    <div class="game-title">SHAN KOE MEE</div>
-                </div>
-
-                <div class="game-card" onclick="alert('BuGyee Table Loading...')">
-                    <img src="https://unsplash.com" alt="BuGyee">
-                    <div class="game-title">BU GYEE</div>
-                </div>
-
-                <div class="game-card" onclick="alert('Fish King Loading...')">
-                    <img src="https://unsplash.com" alt="Fish">
-                    <div class="game-title">OCEAN KING FISH</div>
+            <div class="game-card" onclick="playGame('buffalo')">
+                <span class="hot-badge">HOT</span>
+                <img src="https://unsplash.com" alt="Buffalo">
+                <div class="game-title">AFRICAN BUFFALO</div>
             </div>
-
-        </div>
-    </div>
-    </div>
-
-    <div id="page-deposit" class="page-content hidden">
-        <div class="section-title">💵 DEPOSIT WALLET</div>
-        <div class="payment-box">
-            <div class="pay-info">
-                <strong>KBZ Pay (Kpay)</strong><br>
-                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
-                Name: ZAW MIN HTUT
-            </div>
-            <div class="pay-info">
-                <strong>Wave Pay</strong><br>
-                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
-                Name: ZAW MIN HTUT
-            </div>
-            <p style="font-size:0.85rem; color:#a594bd;">Please transfer money to the above accounts and contact admin with screenshot.</p>
-        </div>
-    </div>
-
-    <!-- WITHDRAW PAGE -->
-    <div id="page-withdraw" class="page-content hidden">
-        <div class="section-title">💸 WITHDRAW REQUEST</div>
-        <div class="payment-box">
-            <input type="text" placeholder="Payment Method (Kpay / Wave)"><br>
-            <input type="text" placeholder="Your Phone Number"><br>
-            <input type="number" placeholder="Withdraw Amount (Ks)"><br>
-            <button onclick="alert('Withdraw Request Submitted to Admin!')">SUBMIT</button>
-        </div>
-    </div>
-
-    <div class="footer-nav">
-        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 Home</div>
-        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Deposit</div>
-        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Withdraw</div>
-        <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
-    </div>
-
-</div>
-
-<script>
-    const SERVER_URL = window.location.origin;
-    let playerId = "";
-    let isLoginMode = true;
-
-    function toggleAuthMode() {
-        isLoginMode = !isLoginMode;
-        document.getElementById('auth-title').innerText = isLoginMode ? "DOUBLE QUEENS LOGIN" : "CREATE ACCOUNT";
-        document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-        document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
-        document.getElementById('auth-msg').innerText = "";
-    }
-
-    async function handleAuth() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const msgDiv = document.getElementById('auth-msg');
-
-        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
-
-        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
-        msgDiv.innerText = "Connecting...";
-        
-        try {
-            const response = await fetch(`${SERVER_URL}${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
-
-            if (data.success) {
-                if (isLoginMode) {
-                    playerId = data.playerId;
-                    document.getElementById('user-display').innerText = data.username;
-                    document.getElementById('balance').innerText = data.balance;
-                    document.getElementById('auth-screen').classList.add('hidden');
-                    document.getElementById('lobby-screen').classList.remove('hidden');
-                } else {
-                    msgDiv.innerText = "Account Created! Please Login.";
-                    msgDiv.style.color = "#00ff88";
-                    toggleAuthMode();
-                }
-            } else {
-                msgDiv.innerText = data.message;
-                msgDiv.style.color = "#ff4b2b";
-            }
-        } catch (e) {
-            msgDiv.innerText = "Server Error!";
-        }
-    }
-
-    function playGame(gameName) {
-        alert("Starting " + gameName + " game! Connect your game window here.");
-    }
-    function switchTab(tabName) {
-    document.getElementById('page-home').classList.add('hidden');
-    document.getElementById('page-deposit').classList.add('hidden');
-    document.getElementById('page-withdraw').classList.add('hidden');
-
-    document.getElementById('nav-home').classList.remove('active');
-    document.getElementById('nav-deposit').classList.remove('active');
-    document.getElementById('nav-withdraw').classList.remove('active');
-
-    if (tabName === 'home') {
-        document.getElementById('page-home').classList.remove('hidden');
-        document.getElementById('nav-home').classList.add('active');
-    } else if (tabName === 'deposit') {
-        document.getElementById('page-deposit').classList.remove('hidden');
-        document.getElementById('nav-deposit').classList.add('active');
-    } else if (tabName === 'withdraw') {
-        document.getElementById('page-withdraw').classList.remove('hidden');
-        document.getElementById('nav-withdraw').classList.add('active');
-    }
-}
-
-</script>
-
-</body>
-</html>
+            <div class="game-card" onclick="playGame('shan')">
+                <span class="hot-badge">HOT</span>
