@@ -261,6 +261,27 @@
     function playGame(gameName) {
         alert("Starting " + gameName + " game! Connect your game window here.");
     }
+    function switchTab(tabName) {
+    document.getElementById('page-home').classList.add('hidden');
+    document.getElementById('page-deposit').classList.add('hidden');
+    document.getElementById('page-withdraw').classList.add('hidden');
+
+    document.getElementById('nav-home').classList.remove('active');
+    document.getElementById('nav-deposit').classList.remove('active');
+    document.getElementById('nav-withdraw').classList.remove('active');
+
+    if (tabName === 'home') {
+        document.getElementById('page-home').classList.remove('hidden');
+        document.getElementById('nav-home').classList.add('active');
+    } else if (tabName === 'deposit') {
+        document.getElementById('page-deposit').classList.remove('hidden');
+        document.getElementById('nav-deposit').classList.add('active');
+    } else if (tabName === 'withdraw') {
+        document.getElementById('page-withdraw').classList.remove('hidden');
+        document.getElementById('nav-withdraw').classList.add('active');
+    }
+}
+
 </script>
 
 </body>
