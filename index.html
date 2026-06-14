@@ -56,11 +56,14 @@
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://unsplash.com');
             background-size: cover;
             background-position: center;
-            height: 140px;
+            height: 160px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem; font-weight: bold; color: #ffd700; border-bottom: 1px solid #ffd700;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            border-bottom: 1px solid #ffd700;
         }
 
         .category-bar {
@@ -88,64 +91,59 @@
             cursor: pointer;
             position: relative;
         }
-        .game-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
-        .game-title { padding: 8px; font-size: 0.85rem; text-align: center; font-weight: bold; background: #130524; }
+        .game-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
+        .game-title { padding: 8px; font-size: 0.9rem; text-align: center; font-weight: bold; background: #130524; }
         .hot-badge {
             position: absolute; top: 5px; right: 5px; background: red;
-            color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
+            color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
         }
-
-        .page-content { padding: 20px; text-align: left; }
-        .payment-box { background: #1c0835; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-top: 10px; }
-        .pay-info { background: #0f061c; padding: 12px; border-radius: 8px; border-left: 4px solid #ffd700; margin-bottom: 15px; font-size: 0.95rem; }
 
         .footer-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 480px; background: #1c0835;
             display: flex; justify-content: space-around; padding: 12px 0;
-            border-top: 2px solid #ffd700; box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
-            z-index: 999;
+            border-top: 2px solid #ffd700;
         }
-        .nav-item { color: #a594bd; font-size: 0.95rem; cursor: pointer; font-weight: bold; }
+        .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; }
         .nav-item.active { color: #ffd700; font-weight: bold; }
 
-        .hidden { display: none !important; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="auth-screen" class="auth-container">
-        <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
-        <input type="text" id="username" placeholder="Username"><br>
-        <input type="password" id="password" placeholder="Password"><br>
-        <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
-        <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">REGISTER ACCOUNT</button>
-        <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
-    </div>
+<div id="auth-screen" class="auth-container">
+    <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
+    <input type="text" id="username" placeholder="Username"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
+    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
+    <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
+</div>
 
-    <div class="lobby-container">
+<div id="lobby-screen" class="lobby-container hidden">
     
-    <div id="top-header" class="header-bar hidden">
+    <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
-    <div id="page-home" class="hidden">
-        <div class="banner-box">
-            WELCOME TO DOUBLE QUEENS
-        </div>
 
-        <div class="category-bar">
-            <div class="cat-item active">Popular</div>
-            <div class="cat-item">Slots</div>
-            <div class="cat-item">Cards</div>
-            <div class="cat-item">Fish</div>
-        </div>
+    <div class="banner-box">
+        WELCOME TO DOUBLE QUEENS
+    </div>
 
-        <div class="games-section">
-            <div class="section-title">🔥 Hot Games</div>
-            <div class="game-grid">
-                
-                <div class="game-card" onclick="alert('Starting Buffalo Game...')">
+    <div class="category-bar">
+        <div class="cat-item active">Popular</div>
+        <div class="cat-item">Slots</div>
+        <div class="cat-item">Cards</div>
+        <div class="cat-item">Fish</div>
+    </div>
+
+    <div class="games-section">
+        <div class="section-title">🔥 Hot Games</div>
+        <div class="game-grid">
+            
+            <div class="game-card" onclick="alert('Starting Buffalo Game...')">
                     <span class="hot-badge">HOT</span>
                     <img src="https://unsplash.com" alt="Buffalo">
                     <div class="game-title">AFRICAN BUFFALO</div>
@@ -165,13 +163,12 @@
                 <div class="game-card" onclick="alert('Fish King Loading...')">
                     <img src="https://unsplash.com" alt="Fish">
                     <div class="game-title">OCEAN KING FISH</div>
-                </div>
-
             </div>
+
         </div>
     </div>
+    </div>
 
-    <!-- DEPOSIT WALLET PAGE -->
     <div id="page-deposit" class="page-content hidden">
         <div class="section-title">💵 DEPOSIT WALLET</div>
         <div class="payment-box">
@@ -200,7 +197,6 @@
         </div>
     </div>
 
-    <!-- Fixed Bottom Menu Navigation -->
     <div class="footer-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 Home</div>
         <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Deposit</div>
@@ -219,7 +215,7 @@
         isLoginMode = !isLoginMode;
         document.getElementById('auth-title').innerText = isLoginMode ? "DOUBLE QUEENS LOGIN" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-        document.getElementById('toggle-btn').innerText = isLoginMode ? "REGISTER ACCOUNT" : "Back to Login";
+        document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
     }
 
@@ -260,3 +256,12 @@
         } catch (e) {
             msgDiv.innerText = "Server Error!";
         }
+    }
+
+    function playGame(gameName) {
+        alert("Starting " + gameName + " game! Connect your game window here.");
+    }
+</script>
+
+</body>
+</html>
