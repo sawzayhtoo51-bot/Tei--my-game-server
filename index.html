@@ -98,20 +98,28 @@
             color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
         }
 
+        /* Forms Styling */
+        .page-content { padding: 20px; text-align: left; }
+        .payment-box { background: #1c0835; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-top: 10px; }
+        .pay-info { background: #0f061c; padding: 12px; border-radius: 8px; border-left: 4px solid #ffd700; margin-bottom: 15px; font-size: 0.95rem; }
+
+        /* Bottom Navigation Bar */
         .footer-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 480px; background: #1c0835;
             display: flex; justify-content: space-around; padding: 12px 0;
-            border-top: 2px solid #ffd700;
+            border-top: 2px solid #ffd700; box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+            z-index: 999;
         }
-        .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; }
+        .nav-item { color: #a594bd; font-size: 0.95rem; cursor: pointer; font-weight: bold; }
         .nav-item.active { color: #ffd700; font-weight: bold; }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
+<!-- Login & Register Screen -->
 <div id="auth-screen" class="auth-container">
     <h2 id="auth-title">CASINO LOGIN</h2>
     <input type="text" id="username" placeholder="Username"><br>
@@ -121,6 +129,7 @@
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
 
+<!-- Premium Game Lobby Screen -->
 <div id="lobby-screen" class="lobby-container hidden">
     
     <div class="header-bar">
@@ -128,51 +137,84 @@
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
 
-    <div class="banner-box">
-        WELCOME TO BUFFALO 688
-    </div>
+    <!-- MAIN HOME PAGE -->
+    <div id="page-home">
+        <div class="banner-box">
+            WELCOME TO BUFFALO 688
+        </div>
 
-    <div class="category-bar">
-        <div class="cat-item active">Popular</div>
-        <div class="cat-item">Slots</div>
-        <div class="cat-item">Cards</div>
-        <div class="cat-item">Fish</div>
-    </div>
+        <div class="category-bar">
+            <div class="cat-item active">Popular</div>
+            <div class="cat-item">Slots</div>
+            <div class="cat-item">Cards</div>
+            <div class="cat-item">Fish</div>
+        </div>
 
-    <div class="games-section">
-        <div class="section-title">🔥 Hot Games</div>
-        <div class="game-grid">
-            
-            <div class="game-card" onclick="playGame('buffalo')">
-                <span class="hot-badge">HOT</span>
-                <img src="https://unsplash.com" alt="Buffalo">
-                <div class="game-title">AFRICAN BUFFALO</div>
+        <div class="games-section">
+            <div class="section-title">🔥 Hot Games</div>
+            <div class="game-grid">
+                
+                <div class="game-card" onclick="alert('Starting Buffalo Game...')">
+                    <span class="hot-badge">HOT</span>
+                    <img src="https://unsplash.com" alt="Buffalo">
+                    <div class="game-title">AFRICAN BUFFALO</div>
+                </div>
+
+                <div class="game-card" onclick="alert('Shan Koe Mee Table Loading...')">
+                    <span class="hot-badge">HOT</span>
+                    <img src="https://unsplash.com" alt="Cards">
+                    <div class="game-title">SHAN KOE MEE</div>
+                </div>
+
+                <div class="game-card" onclick="alert('BuGyee Table Loading...')">
+                    <img src="https://unsplash.com" alt="BuGyee">
+                    <div class="game-title">BU GYEE</div>
+                </div>
+
+                <div class="game-card" onclick="alert('Fish King Loading...')">
+                    <img src="https://unsplash.com" alt="Fish">
+                    <div class="game-title">OCEAN KING FISH</div>
+                </div>
+
             </div>
-
-            <div class="game-card" onclick="playGame('shan')">
-                <span class="hot-badge">HOT</span>
-                <img src="https://unsplash.com" alt="Cards">
-                <div class="game-title">SHAN KOE MEE</div>
-            </div>
-
-            <div class="game-card" onclick="playGame('dice')">
-                <img src="https://unsplash.com" alt="Dice">
-                <div class="game-title">DICE MASTER</div>
-            </div>
-
-            <div class="game-card" onclick="alert('Coming Soon!')">
-                <img src="https://unsplash.com" alt="Casino">
-                <div class="game-title">COMING SOON</div>
-            </div>
-
         </div>
     </div>
 
+    <!-- DEPOSIT WALLET PAGE -->
+    <div id="page-deposit" class="page-content hidden">
+        <div class="section-title">💵 DEPOSIT WALLET</div>
+        <div class="payment-box">
+            <div class="pay-info">
+                <strong>KBZ Pay (Kpay)</strong><br>
+                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
+                Name: ZAW MIN HTUT
+            </div>
+            <div class="pay-info">
+                <strong>Wave Pay</strong><br>
+                Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
+                Name: ZAW MIN HTUT
+            </div>
+            <p style="font-size:0.85rem; color:#a594bd;">Please transfer money to the above accounts and contact admin with screenshot.</p>
+        </div>
+    </div>
+
+    <!-- WITHDRAW PAGE -->
+    <div id="page-withdraw" class="page-content hidden">
+        <div class="section-title">💸 WITHDRAW REQUEST</div>
+        <div class="payment-box">
+            <input type="text" placeholder="Payment Method (Kpay / Wave)"><br>
+            <input type="text" placeholder="Your Phone Number"><br>
+            <input type="number" placeholder="Withdraw Amount (Ks)"><br>
+            <button onclick="alert('Withdraw Request Submitted to Admin!')">SUBMIT</button>
+        </div>
+    </div>
+
+    <!-- Fixed Bottom Menu Navigation -->
     <div class="footer-nav">
-        <div class="nav-item active">Home</div>
-        <div class="nav-item" onclick="alert('Cash Out system!')">Withdraw</div>
-        <div class="nav-item" onclick="alert('Deposit system!')">Deposit</div>
-        <div class="nav-item" onclick="location.reload()">Logout</div>
+        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 Home</div>
+        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Deposit</div>
+        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Withdraw</div>
+        <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
     </div>
 
 </div>
@@ -195,44 +237,3 @@
         const password = document.getElementById('password').value;
         const msgDiv = document.getElementById('auth-msg');
 
-        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
-
-        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
-        msgDiv.innerText = "Connecting...";
-        
-        try {
-            const response = await fetch(`${SERVER_URL}${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
-
-            if (data.success) {
-                if (isLoginMode) {
-                    playerId = data.playerId;
-                    document.getElementById('user-display').innerText = data.username;
-                    document.getElementById('balance').innerText = data.balance;
-                    document.getElementById('auth-screen').classList.add('hidden');
-                    document.getElementById('lobby-screen').classList.remove('hidden');
-                } else {
-                    msgDiv.innerText = "Account Created! Please Login.";
-                    msgDiv.style.color = "#00ff88";
-                    toggleAuthMode();
-                }
-            } else {
-                msgDiv.innerText = data.message;
-                msgDiv.style.color = "#ff4b2b";
-            }
-        } catch (e) {
-            msgDiv.innerText = "Server Error!";
-        }
-    }
-
-    function playGame(gameName) {
-        alert("Starting " + gameName + " game! Connect your game window here.");
-    }
-</script>
-
-</body>
-</html>
