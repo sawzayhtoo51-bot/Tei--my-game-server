@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUFFALO 688 - Premium Lobby</title>
+    <title>DOUBLE QUEENS - Premium Lobby</title>
     <style>
         body {
             background-color: #0b0214;
@@ -114,9 +114,8 @@
 </head>
 <body>
 
-    <!-- Login & Register Screen -->
     <div id="auth-screen" class="auth-container">
-        <h2 id="auth-title">CASINO LOGIN</h2>
+        <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
         <input type="text" id="username" placeholder="Username"><br>
         <input type="password" id="password" placeholder="Password"><br>
         <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
@@ -124,10 +123,15 @@
         <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
     </div>
 
-    <!-- Premium Game Lobby Screen -->
+    <div class="lobby-container">
+    
+    <div id="top-header" class="header-bar hidden">
+        <div class="logo-text">DOUBLE QUEENS</div>
+        <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
+    </div>
     <div id="page-home" class="hidden">
         <div class="banner-box">
-            WELCOME TO BUFFALO 688
+            WELCOME TO DOUBLE QUEENS
         </div>
 
         <div class="category-bar">
@@ -213,7 +217,7 @@
 
     function toggleAuthMode() {
         isLoginMode = !isLoginMode;
-        document.getElementById('auth-title').innerText = isLoginMode ? "CASINO LOGIN" : "CREATE ACCOUNT";
+        document.getElementById('auth-title').innerText = isLoginMode ? "DOUBLE QUEENS LOGIN" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
         document.getElementById('toggle-btn').innerText = isLoginMode ? "REGISTER ACCOUNT" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
@@ -256,4 +260,3 @@
         } catch (e) {
             msgDiv.innerText = "Server Error!";
         }
-    }
