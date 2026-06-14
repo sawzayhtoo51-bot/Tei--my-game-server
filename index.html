@@ -56,14 +56,11 @@
             background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://unsplash.com');
             background-size: cover;
             background-position: center;
-            height: 160px;
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #ffd700;
-            border-bottom: 1px solid #ffd700;
+            font-size: 1.3rem; font-weight: bold; color: #ffd700; border-bottom: 1px solid #ffd700;
         }
 
         .category-bar {
@@ -91,19 +88,17 @@
             cursor: pointer;
             position: relative;
         }
-        .game-card img { width: 100%; height: 130px; object-fit: cover; display: block; }
-        .game-title { padding: 8px; font-size: 0.9rem; text-align: center; font-weight: bold; background: #130524; }
+        .game-card img { width: 100%; height: 120px; object-fit: cover; display: block; }
+        .game-title { padding: 8px; font-size: 0.85rem; text-align: center; font-weight: bold; background: #130524; }
         .hot-badge {
             position: absolute; top: 5px; right: 5px; background: red;
-            color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
+            color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: bold;
         }
 
-        /* Forms Styling */
         .page-content { padding: 20px; text-align: left; }
         .payment-box { background: #1c0835; padding: 20px; border-radius: 15px; border: 1px solid #ffd700; margin-top: 10px; }
         .pay-info { background: #0f061c; padding: 12px; border-radius: 8px; border-left: 4px solid #ffd700; margin-bottom: 15px; font-size: 0.95rem; }
 
-        /* Bottom Navigation Bar */
         .footer-nav {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 480px; background: #1c0835;
@@ -119,26 +114,25 @@
 </head>
 <body>
 
-<!-- Login & Register Screen -->
-<div id="auth-screen" class="auth-container">
-    <h2 id="auth-title">CASINO LOGIN</h2>
-    <input type="text" id="username" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
-    <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
-    <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
-    <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
-</div>
-
-<!-- Premium Game Lobby Screen -->
-<div id="lobby-screen" class="lobby-container hidden">
+<div class="lobby-container">
     
-    <div class="header-bar">
+    <div id="top-header" class="header-bar hidden">
         <div class="logo-text">BUFFALO 688</div>
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
 
-    <!-- MAIN HOME PAGE -->
-    <div id="page-home">
+    <!-- Login & Register Screen -->
+    <div id="auth-screen" class="auth-container">
+        <h2 id="auth-title">CASINO LOGIN</h2>
+        <input type="text" id="username" placeholder="Username"><br>
+        <input type="password" id="password" placeholder="Password"><br>
+        <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
+        <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">REGISTER ACCOUNT</button>
+        <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
+    </div>
+
+    <!-- Premium Game Lobby Screen -->
+    <div id="page-home" class="hidden">
         <div class="banner-box">
             WELCOME TO BUFFALO 688
         </div>
@@ -228,7 +222,7 @@
         isLoginMode = !isLoginMode;
         document.getElementById('auth-title').innerText = isLoginMode ? "CASINO LOGIN" : "CREATE ACCOUNT";
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
-        document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
+        document.getElementById('toggle-btn').innerText = isLoginMode ? "REGISTER ACCOUNT" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
     }
 
@@ -236,4 +230,6 @@
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const msgDiv = document.getElementById('auth-msg');
+
+        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
 
