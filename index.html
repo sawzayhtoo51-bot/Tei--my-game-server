@@ -233,3 +233,12 @@
 
         if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
 
+        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+        msgDiv.innerText = "Connecting...";
+        
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
