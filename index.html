@@ -242,3 +242,25 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
+            const data = await response.json();
+
+            if (data.success) {
+                if (isLoginMode) {
+                    playerId = data.playerId;
+                    document.getElementById('user-display').innerText = data.username;
+                    document.getElementById('balance').innerText = data.balance;
+                    document.getElementById('auth-screen').classList.add('hidden');
+                    document.getElementById('lobby-screen').classList.remove('hidden');
+                } else {
+                    msgDiv.innerText = "Account Created! Please Login.";
+                    msgDiv.style.color = "#00ff88";
+                    toggleAuthMode();
+                }
+            } else {
+                msgDiv.innerText = data.message;
+                msgDiv.style.color = "#ff4b2b";
+            }
+        } catch (e) {
+            msgDiv.innerText = "Server Error!";
+        }
+    }
