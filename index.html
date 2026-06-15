@@ -107,7 +107,117 @@
         .nav-item { color: #a594bd; font-size: 0.85rem; cursor: pointer; }
         .nav-item.active { color: #ffd700; font-weight: bold; }
 
-        .hidden { display: none; }
+                .hidden { display: none; }
+
+        /* ===== 🦬 ကျွဲဂိမ်းအတွက် သီးသန့် Style များ ===== */
+        .room-screen-container {
+            max-width: 480px;
+            margin: auto;
+            background: linear-gradient(180deg, rgba(11, 2, 20, 0.85) 0%, rgba(11, 2, 20, 0.98) 100%), url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 100px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+        }
+        .station-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+            width: 58%; 
+            text-align: left;
+        }
+        .station {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(81, 10, 94, 0.4) 0%, rgba(17, 5, 33, 0.85) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            gap: 6px;
+        }
+        .player-seat {
+            width: 75px;
+            height: 75px;
+            background: #1f0835;
+            border: 2px solid #da0df2;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(218, 13, 242, 0.5);
+            flex-shrink: 0;
+        }
+        .player-seat .avatar-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ffcc00;
+            border: 2px solid #ffffff;
+            margin-bottom: 4px;
+            background-image: url('https://unsplash.com'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .player-seat.empty {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px dashed #666;
+            color: #777;
+            box-shadow: none;
+        }
+        .player-seat.empty .avatar-icon { background: #333; border: 2px dashed #555; }
+        .slot-machine {
+            width: 95px;
+            height: 75px;
+            background: #222;
+            border: 2px solid #ffcc00;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+            flex-shrink: 0;
+        }
+        .machine-logo {
+            background: linear-gradient(90deg, #ff0055, #990033);
+            color: #fff; font-size: 8px; font-weight: bold; width: 100%; text-align: center; padding: 1px 0; border-radius: 3px;
+        }
+        .machine-screen {
+            background: #111; width: 100%; height: 46px; border: 1px solid #ffcc00; border-radius: 4px;
+            background-image: url('https://unsplash.com'); 
+            background-size: cover; background-position: center;
+        }
+        .back-btn {
+            background: linear-gradient(180deg, #ff416c, #ff4b2b); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-weight: bold; border: 1px solid #ffcc00;
+        }
+        .room-selector-box {
+            position: absolute; top: 75px; right: 15px; width: 165px; background: #110222; border: 2px solid #ffd700; border-radius: 12px; overflow: hidden; box-shadow: 0 0 25px rgba(255, 215, 0, 0.5); z-index: 90;
+        }
+        .selector-header {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b); color: white; text-align: center; padding: 8px 5px; font-size: 11px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ffd700;
+        }
+        .room-list { max-height: 290px; overflow-y: scroll; }
+        .room-list::-webkit-scrollbar { width: 6px; }
+        .room-list::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 3px; }
+        .room-list::-webkit-scrollbar-track { background: #1a0830; }
+        .room-item { display: flex; justify-content: space-between; padding: 8px 10px; color: #fff; font-size: 11px; border-bottom: 1px solid #2a1145; cursor: pointer; }
+        .room-item:hover { background: #3a0d5c; }
+        .room-item.active { background: #da0df2; color: white; font-weight: bold; box-shadow: inset 0 0 5px #fff; }
+        .room-status { color: #00ff88; font-weight: bold; }
+        .room-status.full { color: #ff3333; }
+        .action-bar { padding: 10px 15px; display: flex; justify-content: flex-start; align-items: center; }
+        .spin-btn { background: linear-gradient(180deg, #00ff88, #009944); color: #000; padding: 10px 24px; font-weight: bold; border-radius: 20px; border: 2px solid #fff; cursor: pointer; box-shadow: 0 0 12px #00ff88; }
+
     </style>
 </head>
 <body>
@@ -143,25 +253,25 @@
         <div class="section-title">🔥 Hot Games</div>
         <div class="game-grid">
             
-            <div class="game-card" onclick="alert('Starting Buffalo Game...')">
+            <div class="game-card" onclick="switchTab('game-slot')">
                     <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Buffalo">
+                    <img src="https://freepik.com" alt="Buffalo">
                     <div class="game-title">AFRICAN BUFFALO</div>
                 </div>
 
                 <div class="game-card" onclick="alert('Shan Koe Mee Table Loading...')">
                     <span class="hot-badge">HOT</span>
-                    <img src="https://unsplash.com" alt="Cards">
+                    <img src="https://freepik.com" alt="Cards">
                     <div class="game-title">SHAN KOE MEE</div>
                 </div>
 
                 <div class="game-card" onclick="alert('BuGyee Table Loading...')">
-                    <img src="https://unsplash.com" alt="BuGyee">
+                    <img src="https://freepik.com" alt="BuGyee">
                     <div class="game-title">BU GYEE</div>
                 </div>
 
                 <div class="game-card" onclick="alert('Fish King Loading...')">
-                    <img src="https://unsplash.com" alt="Fish">
+                    <img src="https://freepik.com" alt="Fish">
                     <div class="game-title">OCEAN KING FISH</div>
             </div>
 
@@ -203,6 +313,31 @@
         <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Withdraw</div>
         <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
     </div>
+<script>
+function switchTab(tabName) {
+    document.getElementById('page-home').classList.add('hidden');
+    document.getElementById('page-deposit').classList.add('hidden');
+    document.getElementById('page-withdraw').classList.add('hidden');
+    document.getElementById('page-game-slot').classList.add('hidden');
+
+    document.getElementById('nav-home').classList.remove('active');
+    document.getElementById('nav-deposit').classList.remove('active');
+    document.getElementById('nav-withdraw').classList.remove('active');
+
+    if (tabName === 'home') {
+        document.getElementById('page-home').classList.remove('hidden');
+        document.getElementById('nav-home').classList.add('active');
+    } else if (tabName === 'deposit') {
+        document.getElementById('page-deposit').classList.remove('hidden');
+        document.getElementById('nav-deposit').刻တ်add('active');
+    } else if (tabName === 'withdraw') {
+        document.getElementById('page-withdraw').classList.remove('hidden');
+        document.getElementById('nav-withdraw').classList.add('active');
+    } else if (tabName === 'game-slot') {
+        document.getElementById('page-game-slot').classList.remove('hidden');
+    }
+}
+</script>
 
 </div>
 
@@ -262,27 +397,165 @@
         alert("Starting " + gameName + " game! Connect your game window here.");
     }
     function switchTab(tabName) {
-    document.getElementById('page-home').classList.add('hidden');
-    document.getElementById('page-deposit').classList.add('hidden');
-    document.getElementById('page-withdraw').classList.add('hidden');
+    document.getElementById('tab-home').classList.add('hidden');
+    document.getElementById('tab-deposit').classList.add('hidden');
+    document.getElementById('tab-withdraw').classList.add('hidden');
 
     document.getElementById('nav-home').classList.remove('active');
     document.getElementById('nav-deposit').classList.remove('active');
     document.getElementById('nav-withdraw').classList.remove('active');
 
-    if (tabName === 'home') {
-        document.getElementById('page-home').classList.remove('hidden');
-        document.getElementById('nav-home').classList.add('active');
-    } else if (tabName === 'deposit') {
-        document.getElementById('page-deposit').classList.remove('hidden');
-        document.getElementById('nav-deposit').classList.add('active');
-    } else if (tabName === 'withdraw') {
-        document.getElementById('page-withdraw').classList.remove('hidden');
-        document.getElementById('nav-withdraw').classList.add('active');
+ </script>
+
+<!-- ၃။ 🦬 ကျွဲဂိမ်းအတွက် သီးသန့်ကစားဝိုင်းရွေးချယ်မှု စခရင် HTML -->
+<div id="room-screen" class="room-screen-container hidden">
+    <div class="header-bar">
+        <div class="back-btn" onclick="backToLobby()">Exit</div>
+        <div class="logo-text" id="active-room-title">BUFFALO - Table 1</div>
+        <div class="user-info" style="font-size:13px; color:#ffd700;"><span id="room-balance">0</span> Ks</div>
+    </div>
+    
+    <div class="station-list">
+        <div class="station">
+            <div class="player-seat" id="seat-1"><div class="avatar-icon"></div><span>Player 1</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-2"><div class="avatar-icon"></div><span>Player 2</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-3"><div class="avatar-icon"></div><span>Player 3</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-4"><div class="avatar-icon"></div><span>Player 4</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="spin-btn" onclick="triggerSpinEffect()">SPIN GAME</button>
+    </div>
+
+    <div class="room-selector-box">
+        <div class="selector-header">Select Table</div>
+        <div class="room-list" id="roomListContainer"></div>
+    </div>
+</div>
+
+<script>
+    // ===== 🦬 ကျွဲဂိမ်းအတွက် လည်ပတ်မှု Functions များ =====
+    function enterBuffaloRoom() {
+        document.getElementById('lobby-screen').classList.add('hidden');
+        document.getElementById('room-screen').classList.remove('hidden');
+        
+        // အကောင့်ထဲက လက်ရှိငွေပမာဏကို ကျွဲဂိမ်းထဲ တစ်ခါတည်းယူသွားခြင်း
+        const balanceEl = document.getElementById('balance');
+        if(balanceEl) {
+            document.getElementById('room-balance').innerText = balanceEl.innerText;
+        }
+        generateRooms();
     }
-}
 
+    function backToLobby() {
+        document.getElementById('room-screen').classList.add('hidden');
+        document.getElementById('lobby-screen').classList.remove('hidden');
+        switchTab('home');
+    }
+
+    function generateRooms() {
+        const roomListContainer = document.getElementById('roomListContainer');
+        if (!roomListContainer) return;
+        roomListContainer.innerHTML = "";
+        
+        for (let i = 1; i <= 60; i++) {
+            let playersCount = 4; 
+            let statusClass = "full";
+
+            if (i === 3 || i === 15 || i === 35) { playersCount = 2; statusClass = ""; } 
+            if (i === 6 || i === 22 || i === 50) { playersCount = 3; statusClass = ""; }
+            if (i === 10 || i === 42 || i === 60) { playersCount = 1; statusClass = ""; } 
+
+            const roomItem = document.createElement('div');
+            roomItem.className = `room-item ${i === 1 ? 'active' : ''}`;
+            roomItem.innerHTML = `
+                <span>Table ${i}</span>
+                <span class="room-status ${statusClass}">(${playersCount}/4)</span>
+            `;
+
+            roomItem.onclick = function() {
+                document.querySelectorAll('.room-item').forEach(el => el.classList.remove('active'));
+                roomItem.classList.add('active');
+                document.getElementById('active-room-title').innerText = `BUFFALO - Table ${i}`;
+                updateSeats(playersCount);
+            };
+
+            roomListContainer.appendChild(roomItem);
+        }
+        updateSeats(4); 
+    }
+
+    function updateSeats(count) {
+        for (let seatNum = 1; seatNum <= 4; seatNum++) {
+            const seatElement = document.getElementById(`seat-${seatNum}`);
+            if (!seatElement) continue;
+            
+            if (seatNum <= count) {
+                seatElement.innerHTML = `<div class="avatar-icon"></div><span>Player ${seatNum}</span>`;
+                seatElement.classList.remove('empty');
+            } else {
+                seatElement.innerHTML = `<div class="avatar-icon"></div><span>Empty Seat</span>`;
+                seatElement.classList.add('empty');
+            }
+        }
+    }
+
+    function triggerSpinEffect() {
+        const screens = document.querySelectorAll('.machine-screen');
+        screens.forEach(screen => {
+            screen.style.transition = 'all 0.1s ease';
+            let interval = setInterval(() => {
+                screen.style.opacity = screen.style.opacity === '0.3' ? '1' : '0.3';
+            }, 100);
+            setTimeout(() => {
+                clearInterval(interval);
+                screen.style.opacity = '1';
+            }, 1500);
+        });
+        setTimeout(() => { alert('🦬 African Buffalo Slot Spinning Completed!'); }, 1600);
+    }
+
+    // 🔄 Taskbar ခလုတ်များ နှိပ်မရသည့် ပြဿနာကို ရာနှုန်းပြည့် ပြုပြင်ပေးထားသည့် စနစ်အသစ်
+    function switchTab(tabName) {
+        const homePage = document.getElementById('page-home');
+        const depositPage = document.getElementById('page-deposit');
+        const withdrawPage = document.getElementById('page-withdraw');
+        const roomScreen = document.getElementById('room-screen');
+
+        if(homePage) homePage.classList.add('hidden');
+        if(depositPage) depositPage.classList.add('hidden');
+        if(withdrawPage) withdrawPage.classList.add('hidden');
+        if(roomScreen) roomScreen.classList.add('hidden'); 
+
+        document.getElementById('nav-home').classList.remove('active');
+        document.getElementById('nav-deposit').classList.remove('active');
+        document.getElementById('nav-withdraw').classList.remove('active');
+
+        document.getElementById('lobby-screen').classList.remove('hidden');
+
+        if (tabName === 'home') {
+            if(homePage) homePage.classList.remove('hidden');
+            document.getElementById('nav-home').classList.add('active');
+        } else if (tabName === 'deposit') {
+            if(depositPage) depositPage.classList.remove('hidden');
+            document.getElementById('nav-deposit').classList.add('active');
+        } else if (tabName === 'withdraw') {
+            if(withdrawPage) withdrawPage.classList.remove('hidden');
+            document.getElementById('nav-withdraw').classList.add('active');
+        }
+    }
 </script>
-
 </body>
 </html>
+
