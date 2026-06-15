@@ -371,26 +371,34 @@
     function playGame(gameName) {
         alert("Starting " + gameName + " game! Connect your game window here.");
     }
-    function switchTab(tabName) {
-    document.getElementById('page-home').classList.add('hidden');
-    document.getElementById('page-deposit').classList.add('hidden');
-    document.getElementById('page-withdraw').classList.add('hidden');
+        function switchTab(tabName) {
+        const homePage = document.getElementById('page-home');
+        const depositPage = document.getElementById('page-deposit');
+        const withdrawPage = document.getElementById('page-withdraw');
+        const roomScreen = document.getElementById('room-screen');
 
-    document.getElementById('nav-home').classList.remove('active');
-    document.getElementById('nav-deposit').classList.remove('active');
-    document.getElementById('nav-withdraw').classList.remove('active');
+        if(homePage) homePage.classList.add('hidden');
+        if(depositPage) depositPage.classList.add('hidden');
+        if(withdrawPage) withdrawPage.classList.add('hidden');
+        if(roomScreen) roomScreen.classList.add('hidden'); 
 
-    if (tabName === 'home') {
-        document.getElementById('page-home').classList.remove('hidden');
-        document.getElementById('nav-home').classList.add('active');
-    } else if (tabName === 'deposit') {
-        document.getElementById('page-deposit').classList.remove('hidden');
-        document.getElementById('nav-deposit').classList.add('active');
-    } else if (tabName === 'withdraw') {
-        document.getElementById('page-withdraw').classList.remove('hidden');
-        document.getElementById('nav-withdraw').classList.add('active');
+        document.getElementById('nav-home').classList.remove('active');
+        document.getElementById('nav-deposit').classList.remove('active');
+        document.getElementById('nav-withdraw').classList.remove('active');
+
+        document.getElementById('lobby-screen').classList.remove('hidden');
+
+        if (tabName === 'home') {
+            if(homePage) homePage.classList.remove('hidden');
+            document.getElementById('nav-home').classList.add('active');
+        } else if (tabName === 'deposit') {
+            if(depositPage) depositPage.classList.remove('hidden');
+            document.getElementById('nav-deposit').classList.add('active');
+        } else if (tabName === 'withdraw') {
+            if(withdrawPage) withdrawPage.classList.remove('hidden');
+            document.getElementById('nav-withdraw').classList.add('active');
+        }
     }
-}
 
 </script>
 <!-- ၃။ 🦬 ကျွဲဂိမ်းအတွက် သီးသန့်ကစားဝိုင်းရွေးချယ်မှု စခရင် HTML -->
