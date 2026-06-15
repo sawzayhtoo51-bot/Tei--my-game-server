@@ -222,7 +222,7 @@
 </head>
 <body>
 
-<div id="auth-screen" class="auth-container">
+<div id="auth-screen" class="auth-container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
     <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
     <input type="text" id="username" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br>
@@ -231,7 +231,7 @@
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
 
-<div id="lobby-screen" class="lobby-container">
+<div id="lobby-screen" class="lobby-container hidden" style="position: relative; min-height: 100vh; padding-bottom: 80px; box-sizing: border-box;">
     
     <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
@@ -308,7 +308,7 @@
         </div>
     </div>
 
-    <div class="footer-nav">
+    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 2px solid #ffd700;">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 Home</div>
         <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Deposit</div>
         <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Withdraw</div>
