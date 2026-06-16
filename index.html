@@ -222,10 +222,22 @@
 </head>
 <body>
 
-<div id="auth-screen" class="auth-container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+<div id="auth-screen" class="auth-container">
     <h2 id="auth-title">DOUBLE QUEENS LOGIN</h2>
-    <input type="text" id="username" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
+    
+    <!-- 🔄 အစ်ကိုတောင်းဆိုထားတဲ့ Register Field အသစ်များ (စနစ်တကျ ပိတ်/ပွင့် လုပ်ပါမည်) -->
+    <div id="login-fields">
+        <input type="text" id="username" placeholder="Username"><br>
+        <input type="password" id="password" placeholder="Password"><br>
+    </div>
+    
+    <div id="register-fields" class="hidden">
+        <input type="text" id="reg-username" placeholder="New Username"><br>
+        <input type="text" id="reg-phone" placeholder="Phone Number"><br>
+        <input type="password" id="reg-password" placeholder="Password"><br>
+        <input type="password" id="reg-confirm" placeholder="Confirm Password"><br>
+    </div>
+
     <button id="auth-btn" onclick="handleAuth()">LOGIN</button>
     <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
