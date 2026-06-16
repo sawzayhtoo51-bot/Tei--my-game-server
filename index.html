@@ -243,16 +243,15 @@
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
 
-<div id="lobby-screen" class="lobby-container hidden" style="position: relative; min-height: 100vh; padding-bottom: 80px; box-sizing: border-box;">
-    
+<div id="lobby-screen" class="lobby-container hidden">
     <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
-</div>
-        <div id="page-home">
-    <div class="banner-box">
-        WELCOME TO DOUBLE QUEENS
+
+    <!-- ပင်မစာမျက်နှာ -->
+    <div id="page-home">
+        <div class="banner-box">WELCOME TO DOUBLE QUEENS</div>
     </div>
 
     <div class="category-bar">
@@ -320,12 +319,27 @@
         </div>
     </div>
 
-    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 2px solid #ffd700;">
-        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 Home</div>
-        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Deposit</div>
-        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Withdraw</div>
+    <!-- 👤 အစ်ကို တောင်းဆိုထားသည့် ပရိုဖိုင် (Profile) စာမျက်နှာအသစ် -->
+    <div id="page-profile" class="page-content hidden">
+        <div class="section-title">👤 MY PROFILE</div>
+        <div class="payment-box" style="text-align: left; display: flex; flex-direction: column; gap: 10px;">
+            <div class="pay-info" onclick="alert('အသုံးပြုသူအချက်အလက် ပြင်ဆင်မှုစနစ်')">⚙️ Edit User Info</div>
+            <div class="pay-info" onclick="alert('စကားဝှက်ပြောင်းလဲမှုစနစ်')">🔑 Change Password</div>
+            <div class="pay-info" onclick="alert('ဂိမ်း၏ အသေးစိတ်အချက်အလက်များ')">ℹ️ Game Details</div>
+            <div class="pay-info" onclick="alert('ဖောက်သည်ဝန်ဆောင်မှုသို့ ဆက်သွယ်ရန်')">📞 Contact Customer Service</div>
+            <div class="pay-info" onclick="alert('ဂိမ်းကို သူငယ်ချင်းများထံ မျှဝေရန်')">🔗 Share Game</div>
+        </div>
+    </div>
+
+    <!-- 🔄 ပြုပြင်ထားသော တောင်းဆိုချက်အတိုင်း Taskbar အသစ် (ပင်မ/ငွေသွင်း/ငွေထုတ်/ပရိုဖိုင်) -->
+    <div class="footer-nav">
+        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 ပင်မ</div>
+        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 ငွေသွင်း</div>
+        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Ngwထုတ်</div>
+        <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">👤 ပရိုဖိုင်</div>
         <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
     </div>
+</div>
 
 </div>
 
@@ -340,6 +354,14 @@
         document.getElementById('auth-btn').innerText = isLoginMode ? "LOGIN" : "REGISTER";
         document.getElementById('toggle-btn').innerText = isLoginMode ? "Register Account" : "Back to Login";
         document.getElementById('auth-msg').innerText = "";
+        
+        if (isLoginMode) {
+            document.getElementById('login-fields').classList.remove('hidden');
+            document.getElementById('register-fields').classList.add('hidden');
+        } else {
+            document.getElementById('login-fields').classList.add('hidden');
+            document.getElementById('register-fields').classList.remove('hidden');
+        }
     }
 
     async function handleAuth() {
@@ -351,35 +373,46 @@
 
         const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
         msgDiv.innerText = "Connecting...";
-        
-        try {
-            const response = await fetch(`${SERVER_URL}${endpoint}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
+else {
+    try {
+                // 🚀 အစ်ကို့ Backend ဆီသို့ New Username, Ph Number, Password တို့ကို လှမ်းပို့ခြင်း
+                const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        username: regUser, 
+                        phone: regPhone, 
+                        password: regPass 
+                    })
+                });
+                const data = await response.json();
 
-            if (data.success) {
-                if (isLoginMode) {
-                    playerId = data.playerId;
-                    document.getElementById('user-display').innerText = data.username;
-                    document.getElementById('balance').innerText = data.balance;
-                    document.getElementById('auth-screen').classList.add('hidden');
-                    document.getElementById('lobby-screen').classList.remove('hidden');
-                } else {
-                    msgDiv.innerText = "Account Created! Please Login.";
+                // Backend က အောင်မြင်ကြောင်း success: true ပြန်လာလျှင်
+                if (data.success) {
+                    msgDiv.innerText = "Account Created Successfully! Please Login.";
                     msgDiv.style.color = "#00ff88";
-                    toggleAuthMode();
+                    
+                    // Input Fields များကို ပြန်ရှင်းထုတ်ခြင်း
+                    document.getElementById('reg-username').value = "";
+                    document.getElementById('reg-phone').value = "";
+                    document.getElementById('reg-password').value = "";
+                    document.getElementById('reg-confirm').value = "";
+                    
+                    // ၁.၅ စက္ကန့်အကြာတွင် Login စာမျက်နှာသို့ အလိုအလျောက် ပြန်ရွှေ့ပေးခြင်း
+                    setTimeout(() => {
+                        toggleAuthMode();
+                    }, 1500);
+                } else {
+                    // Backend က ပေးပို့လာသော Error Message ကို တိုက်ရိုက်ပြသခြင်း (ဥပမာ- အကောင့်ရှိပြီးသားဖြစ်နေခြင်း)
+                    msgDiv.innerText = data.message || "Registration failed!";
+                    msgDiv.style.color = "#ff4b2b";
                 }
-            } else {
-                msgDiv.innerText = data.message;
+            } catch (error) {
+                // ဆာဗာလိုင်းကျနေလျှင် သို့မဟုတ် Error တက်လျှင် ပြသမည့်စာ
+                console.error("Register Error:", error);
+                msgDiv.innerText = "Server Error! Please try again later.";
                 msgDiv.style.color = "#ff4b2b";
             }
-        } catch (e) {
-            msgDiv.innerText = "Server Error!";
-        }
-    }
 
         function switchTab(tabName) {
         const homePage = document.getElementById('page-home');
