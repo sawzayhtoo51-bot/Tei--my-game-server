@@ -242,30 +242,32 @@
     <button class="btn-alt" id="toggle-btn" onclick="toggleAuthMode()">Register Account</button>
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
-
+<!-- ၂။ Lobby Main Screen Container -->
 <div id="lobby-screen" class="lobby-container hidden">
+    
     <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
         <div class="user-info"><span id="user-display" style="color:white;"></span> | <span id="balance">0</span> Ks</div>
     </div>
 
-    <!-- ပင်မစာမျက်နှာ -->
+    <!-- 🏠 ပင်မစာမျက်နှာအုပ်စု (Home Content) -->
     <div id="page-home">
-        <div class="banner-box">WELCOME TO DOUBLE QUEENS</div>
-    </div>
+        <div class="banner-box">
+            WELCOME TO DOUBLE QUEENS
+        </div>
 
-    <div class="category-bar">
-        <div class="cat-item active">Popular</div>
-        <div class="cat-item">Slots</div>
-        <div class="cat-item">Cards</div>
-        <div class="cat-item">Fish</div>
-    </div>
+        <div class="category-bar">
+            <div class="cat-item active">Popular</div>
+            <div class="cat-item">Slots</div>
+            <div class="cat-item">Cards</div>
+            <div class="cat-item">Fish</div>
+        </div>
 
-    <div class="games-section">
-        <div class="section-title">🔥 Hot Games</div>
-        <div class="game-grid">
-            
-            <div class="game-card" onclick="enterBuffaloRoom()">
+        <div class="games-section">
+            <div class="section-title">🔥 Hot Games</div>
+            <div class="game-grid">
+                
+                <div class="game-card" onclick="enterBuffaloRoom()">
                     <span class="hot-badge">HOT</span>
                     <img src="https://unsplash.com" alt="Buffalo">
                     <div class="game-title">AFRICAN BUFFALO</div>
@@ -285,12 +287,13 @@
                 <div class="game-card" onclick="alert('Fish King Loading...')">
                     <img src="https://unsplash.com" alt="Fish">
                     <div class="game-title">OCEAN KING FISH</div>
-            </div>
+                </div>
 
+            </div>
         </div>
-    </div>
-    </div>
-    </div>
+    </div> <!-- 📍 ပင်မစာမျက်နှာကို စနစ်တကျ ပြန်ပိတ်လိုက်ခြင်းဖြစ်လို့ စာမျက်နှာတွေ ထပ်မနေတော့ပါဘူး -->
+
+    <!-- 💰 ငွေသွင်းစာမျက်နှာအုပ်စု (Deposit Content) -->
     <div id="page-deposit" class="page-content hidden">
         <div class="section-title">💵 DEPOSIT WALLET</div>
         <div class="payment-box">
@@ -316,17 +319,19 @@
         </div>
     </div>
 
-    <!-- WITHDRAW PAGE -->
+    <!-- 💸 ငွေထုတ်စာမျက်နှာအုပ်စု (Withdraw Content) -->
     <div id="page-withdraw" class="page-content hidden">
         <div class="section-title">💸 WITHDRAW REQUEST</div>
         <div class="payment-box">
-            <input type="text" placeholder="Payment Method (Kpay / Wave)"><br>
+            <div class="pay-info">
+                <strong>KBZ Pay (Kpay)</strong><br>
             <input type="text" placeholder="Your Phone Number"><br>
             <input type="number" placeholder="Withdraw Amount (Ks)"><br>
             <button onclick="alert('Withdraw Request Submitted to Admin!')">SUBMIT</button>
         </div>
     </div>
- <!-- 👤 အစ်ကို တောင်းဆိုထားသည့် ပရိုဖိုင် (Profile) စာမျက်နှာအသစ် -->
+
+    <!-- 👤 ပရိုဖိုင်စာမျက်နှာအုပ်စု (Profile Content) -->
     <div id="page-profile" class="page-content hidden">
         <div class="section-title">👤 MY PROFILE</div>
         <div class="payment-box" style="text-align: left; display: flex; flex-direction: column; gap: 10px;">
@@ -338,15 +343,16 @@
         </div>
     </div>
 
-    <!-- 🔄 ပြုပြင်ထားသော တောင်းဆိုချက်အတိုင်း Taskbar အသစ် (ပင်မ/ငွေသွင်း/ငွေထုတ်/ပရိုဖိုင်) -->
-    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 4px solid #ffd700;">
+    <!-- 🔄 အောက်ခြေ အံဝင်ခွင်ကျ Taskbar ခလုတ်တန်းကြီး -->
+    <div class="footer-nav">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 ပင်မ</div>
-        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 ငွေသွင်း</div>
-        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 ငွေထုတ်</div>
+        <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 Ngwသွင်း</div>
+        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Ngwထုတ်</div>
         <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">👤 ပရိုဖိုင်</div>
         <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
     </div>
-</div>
+
+</div> <!-- 📍 Lobby screen ပိတ်ခြင်း -->
 
 <script>
     const SERVER_URL = window.location.origin;
