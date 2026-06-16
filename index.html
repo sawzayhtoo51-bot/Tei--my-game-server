@@ -298,11 +298,19 @@
                 <strong>KBZ Pay (Kpay)</strong><br>
                 Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
                 Name: ZAW MIN HTUT
+                <input type="number" placeholder="Deposit Amount (Ks)"><br>
+                <input type="number" placeholder="Last 5 digits of the transaction number"><br>
+                <input type="number" placeholder="Payer name"><br>
+                <button onclick="alert('Deposit Request Submitted to Admin!')">SUBMIT</button>
             </div>
             <div class="pay-info">
                 <strong>Wave Pay</strong><br>
                 Phone: <span style="color:#ffd700; font-weight:bold;">09 783 458 372</span><br>
                 Name: ZAW MIN HTUT
+                <input type="number" placeholder="Deposit Amount (Ks)"><br>
+                <input type="number" placeholder="Last 5 digits of the transaction number"><br>
+                <input type="number" placeholder="Payer name"><br>
+                <button onclick="alert('Deposit Request Submitted to Admin!')">SUBMIT</button>
             </div>
             <p style="font-size:0.85rem; color:#a594bd;">Please transfer money to the above accounts and contact admin with screenshot.</p>
         </div>
@@ -318,8 +326,7 @@
             <button onclick="alert('Withdraw Request Submitted to Admin!')">SUBMIT</button>
         </div>
     </div>
-
-    <!-- 👤 အစ်ကို တောင်းဆိုထားသည့် ပရိုဖိုင် (Profile) စာမျက်နှာအသစ် -->
+ <!-- 👤 အစ်ကို တောင်းဆိုထားသည့် ပရိုဖိုင် (Profile) စာမျက်နှာအသစ် -->
     <div id="page-profile" class="page-content hidden">
         <div class="section-title">👤 MY PROFILE</div>
         <div class="payment-box" style="text-align: left; display: flex; flex-direction: column; gap: 10px;">
@@ -332,7 +339,7 @@
     </div>
 
     <!-- 🔄 ပြုပြင်ထားသော တောင်းဆိုချက်အတိုင်း Taskbar အသစ် (ပင်မ/ငွေသွင်း/ငွေထုတ်/ပရိုဖိုင်) -->
-    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 2px solid #ffd700;">
+    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 4px solid #ffd700;">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 ပင်မ</div>
         <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 ငွေသွင်း</div>
         <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 ငွေထုတ်</div>
