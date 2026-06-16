@@ -332,15 +332,13 @@
     </div>
 
     <!-- 🔄 ပြုပြင်ထားသော တောင်းဆိုချက်အတိုင်း Taskbar အသစ် (ပင်မ/ငွေသွင်း/ငွေထုတ်/ပရိုဖိုင်) -->
-    <div class="footer-nav">
+    <div class="footer-nav" style="position: absolute; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 15px 0; box-sizing: border-box; background: #1c0835; border-top: 2px solid #ffd700;">
         <div class="nav-item active" id="nav-home" onclick="switchTab('home')">🏠 ပင်မ</div>
         <div class="nav-item" id="nav-deposit" onclick="switchTab('deposit')">💰 ငွေသွင်း</div>
-        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 Ngwထုတ်</div>
+        <div class="nav-item" id="nav-withdraw" onclick="switchTab('withdraw')">💸 ငွေထုတ်</div>
         <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">👤 ပရိုဖိုင်</div>
         <div class="nav-item" onclick="location.reload()">🚪 Logout</div>
     </div>
-</div>
-
 </div>
 
 <script>
@@ -365,54 +363,87 @@
     }
 
     async function handleAuth() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const msgDiv = document.getElementById('auth-msg');
+    const msgDiv = document.getElementById('auth-msg');
+    if (!msgDiv) return;
+    msgDiv.style.color = "#ffffff";
 
-        if(!username || !password) return msgDiv.innerText = "Please fill all fields!";
+    if (isLoginMode) {
+        const username = document.getElementById('username') ? document.getElementById('username').value : '';
+        const password = document.getElementById('password') ? document.getElementById('password').value : '';
 
-        const endpoint = isLoginMode ? '/api/auth/login' : '/api/auth/register';
+        if (!username || !password) return msgDiv.innerText = "Please fill all fields!";
         msgDiv.innerText = "Connecting...";
-else {
-    try {
-                // 🚀 အစ်ကို့ Backend ဆီသို့ New Username, Ph Number, Password တို့ကို လှမ်းပို့ခြင်း
-                const response = await fetch(`${SERVER_URL}${endpoint}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        username: regUser, 
-                        phone: regPhone, 
-                        password: regPass 
-                    })
-                });
-                const data = await response.json();
 
-                // Backend က အောင်မြင်ကြောင်း success: true ပြန်လာလျှင်
-                if (data.success) {
-                    msgDiv.innerText = "Account Created Successfully! Please Login.";
-                    msgDiv.style.color = "#00ff88";
-                    
-                    // Input Fields များကို ပြန်ရှင်းထုတ်ခြင်း
-                    document.getElementById('reg-username').value = "";
-                    document.getElementById('reg-phone').value = "";
-                    document.getElementById('reg-password').value = "";
-                    document.getElementById('reg-confirm').value = "";
-                    
-                    // ၁.၅ စက္ကန့်အကြာတွင် Login စာမျက်နှာသို့ အလိုအလျောက် ပြန်ရွှေ့ပေးခြင်း
-                    setTimeout(() => {
-                        toggleAuthMode();
-                    }, 1500);
-                } else {
-                    // Backend က ပေးပို့လာသော Error Message ကို တိုက်ရိုက်ပြသခြင်း (ဥပမာ- အကောင့်ရှိပြီးသားဖြစ်နေခြင်း)
-                    msgDiv.innerText = data.message || "Registration failed!";
-                    msgDiv.style.color = "#ff4b2b";
-                }
-            } catch (error) {
-                // ဆာဗာလိုင်းကျနေလျှင် သို့မဟုတ် Error တက်လျှင် ပြသမည့်စာ
-                console.error("Register Error:", error);
-                msgDiv.innerText = "Server Error! Please try again later.";
+        const endpoint = '/api/auth/login';
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                document.getElementById('user-display').innerText = data.username || username;
+                document.getElementById('balance').innerText = data.balance || 0;
+                document.getElementById('room-balance').innerText = data.balance || 0;
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('lobby-screen').classList.remove('hidden');
+                switchTab('home');
+            } else {
+                msgDiv.innerText = data.message || "Login failed!";
                 msgDiv.style.color = "#ff4b2b";
             }
+        } catch (e) {
+            console.error("Login Server Error:", e);
+            msgDiv.innerText = "Server Error! Please try again later.";
+            msgDiv.style.color = "#ff4b2b";
+        }
+    } else {
+        const regUser = document.getElementById('reg-username') ? document.getElementById('reg-username').value : '';
+        const regPhone = document.getElementById('reg-phone') ? document.getElementById('reg-phone').value : '';
+        const regPass = document.getElementById('reg-password') ? document.getElementById('reg-password').value : '';
+        const regConfirm = document.getElementById('reg-confirm') ? document.getElementById('reg-confirm').value : '';
+
+        if (!regUser || !regPhone || !regPass || !regConfirm) return msgDiv.innerText = "Please fill all fields!";
+        if (regPass !== regConfirm) return msgDiv.innerText = "Passwords do not match!";
+
+        msgDiv.innerText = "Creating Account...";
+        const endpoint = '/api/auth/register';
+        
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    username: regUser, 
+                    phone: regPhone, 
+                    password: regPass 
+                })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                msgDiv.innerText = "Account Created Successfully! Please Login.";
+                msgDiv.style.color = "#00ff88";
+                
+                document.getElementById('reg-username').value = "";
+                document.getElementById('reg-phone').value = "";
+                document.getElementById('reg-password').value = "";
+                document.getElementById('reg-confirm').value = "";
+                
+                setTimeout(() => { toggleAuthMode(); }, 1500);
+            } else {
+                msgDiv.innerText = data.message || "Registration failed!";
+                msgDiv.style.color = "#ff4b2b";
+            }
+        } catch (error) {
+            console.error("Register Error:", error);
+            msgDiv.innerText = "Server Error! Please try again later.";
+            msgDiv.style.color = "#ff4b2b";
+        }
+    }
+}
 
         function switchTab(tabName) {
         const homePage = document.getElementById('page-home');
