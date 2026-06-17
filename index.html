@@ -243,7 +243,7 @@
     <div style="margin-top:15px; font-weight:bold;" id="auth-msg"></div>
 </div>
 <!-- ၂။ Lobby Main Screen Container -->
-<div id="lobby-screen" class="lobby-container hidden">
+<div id="lobby-screen" class="lobby-container">
     
     <div class="header-bar">
         <div class="logo-text">DOUBLE QUEENS</div>
@@ -262,7 +262,6 @@
             <div class="cat-item">Cards</div>
             <div class="cat-item">Fish</div>
         </div>
-      <body>
                 <div class="games-section">
             <div class="section-title">🔥 Hot Games</div>
             <div class="game-grid">
@@ -288,9 +287,7 @@
                     <img src="images/fish.png" alt="Fish">
                     <div class="game-title">OCEAN KING FISH</div>
                 </div>
-
-            </div>
-        </div> <!-- 📍 ပင်မစာမျက်နှာကို စနစ်တကျ ပြန်ပိတ်လိုက်ခြင်းဖြစ်လို့ စာမျက်နှာတွေ ထပ်မနေတော့ပါဘူး -->
+</div> <!-- 📍 ပင်မစာမျက်နှာကို စနစ်တကျ ပြန်ပိတ်လိုက်ခြင်းဖြစ်လို့ စာမျက်နှာတွေ ထပ်မနေတော့ပါဘူး -->
      <!-- 💰 ငွေသွင်းစာမျက်နှာအုပ်စု (Deposit Content) -->
     <div id="page-deposit" class="page-content hidden">
         <div class="section-title">💵 DEPOSIT WALLET</div>
@@ -349,6 +346,42 @@
     </div>
 
 <!-- 📍 Lobby screen ပိတ်ခြင်း -->
+<!-- ၃။ 🦬 ကျွဲဂိမ်းအတွက် သီးသန့်ကစားဝိုင်းရွေးချယ်မှု စခရင် HTML -->
+<div id="room-screen" class="room-screen-container hidden">
+    <div class="header-bar">
+        <div class="back-btn" onclick="backToLobby()">Exit</div>
+        <div class="logo-text" id="active-room-title">BUFFALO - Table 1</div>
+        <div class="user-info" style="font-size:13px; color:#ffd700;"><span id="room-balance">0</span> Ks</div>
+    </div>
+    
+    <div class="station-list">
+        <div class="station">
+            <div class="player-seat" id="seat-1"><div class="avatar-icon"></div><span>Player 1</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-2"><div class="avatar-icon"></div><span>Player 2</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-3"><div class="avatar-icon"></div><span>Player 3</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+        <div class="station">
+            <div class="player-seat" id="seat-4"><div class="avatar-icon"></div><span>Player 4</span></div>
+            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button class="spin-btn" onclick="triggerSpinEffect()">SPIN GAME</button>
+    </div>
+
+    <div class="room-selector-box">
+        <div class="selector-header">Select Table</div>
+        <div class="room-list" id="roomListContainer"></div>
+    </div>
+</div>
 </body>
 <script>
     const SERVER_URL = window.location.origin;
@@ -484,123 +517,3 @@
     }
 
 </script>
-<!-- ၃။ 🦬 ကျွဲဂိမ်းအတွက် သီးသန့်ကစားဝိုင်းရွေးချယ်မှု စခရင် HTML -->
-<div id="room-screen" class="room-screen-container hidden">
-    <div class="header-bar">
-        <div class="back-btn" onclick="backToLobby()">Exit</div>
-        <div class="logo-text" id="active-room-title">BUFFALO - Table 1</div>
-        <div class="user-info" style="font-size:13px; color:#ffd700;"><span id="room-balance">0</span> Ks</div>
-    </div>
-    
-    <div class="station-list">
-        <div class="station">
-            <div class="player-seat" id="seat-1"><div class="avatar-icon"></div><span>Player 1</span></div>
-            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
-        </div>
-        <div class="station">
-            <div class="player-seat" id="seat-2"><div class="avatar-icon"></div><span>Player 2</span></div>
-            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
-        </div>
-        <div class="station">
-            <div class="player-seat" id="seat-3"><div class="avatar-icon"></div><span>Player 3</span></div>
-            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
-        </div>
-        <div class="station">
-            <div class="player-seat" id="seat-4"><div class="avatar-icon"></div><span>Player 4</span></div>
-            <div class="slot-machine"><div class="machine-logo">AFRICAN BUFFALO</div><div class="machine-screen"></div></div>
-        </div>
-    </div>
-
-    <div class="action-bar">
-        <button class="spin-btn" onclick="triggerSpinEffect()">SPIN GAME</button>
-    </div>
-
-    <div class="room-selector-box">
-        <div class="selector-header">Select Table</div>
-        <div class="room-list" id="roomListContainer"></div>
-    </div>
-</div>
-
-<script>
-    // ===== 🦬 ကျွဲဂိမ်းအတွက် လည်ပတ်မှု Functions များ =====
-    function enterBuffaloRoom() {
-        document.getElementById('lobby-screen').classList.add('hidden');
-        document.getElementById('room-screen').classList.remove('hidden');
-        
-        // အကောင့်ထဲက လက်ရှိငွေပမာဏကို ကျွဲဂိမ်းထဲ တစ်ခါတည်းယူသွားခြင်း
-        const balanceEl = document.getElementById('balance');
-        if(balanceEl) {
-            document.getElementById('room-balance').innerText = balanceEl.innerText;
-        }
-        generateRooms();
-    }
-
-    function backToLobby() {
-        document.getElementById('room-screen').classList.add('hidden');
-        document.getElementById('lobby-screen').classList.remove('hidden');
-        switchTab('home');
-    }
-
-    function generateRooms() {
-        const roomListContainer = document.getElementById('roomListContainer');
-        if (!roomListContainer) return;
-        roomListContainer.innerHTML = "";
-        
-        for (let i = 1; i <= 60; i++) {
-            let playersCount = 4; 
-            let statusClass = "full";
-
-            if (i === 3 || i === 15 || i === 35) { playersCount = 2; statusClass = ""; } 
-            if (i === 6 || i === 22 || i === 50) { playersCount = 3; statusClass = ""; }
-            if (i === 10 || i === 42 || i === 60) { playersCount = 1; statusClass = ""; } 
-
-            const roomItem = document.createElement('div');
-            roomItem.className = `room-item ${i === 1 ? 'active' : ''}`;
-            roomItem.innerHTML = `
-                <span>Table ${i}</span>
-                <span class="room-status ${statusClass}">(${playersCount}/4)</span>
-            `;
-
-            roomItem.onclick = function() {
-                document.querySelectorAll('.room-item').forEach(el => el.classList.remove('active'));
-                roomItem.classList.add('active');
-                document.getElementById('active-room-title').innerText = `BUFFALO - Table ${i}`;
-                updateSeats(playersCount);
-            };
-
-            roomListContainer.appendChild(roomItem);
-        }
-        updateSeats(4); 
-    }
-
-    function updateSeats(count) {
-        for (let seatNum = 1; seatNum <= 4; seatNum++) {
-            const seatElement = document.getElementById(`seat-${seatNum}`);
-            if (!seatElement) continue;
-            
-            if (seatNum <= count) {
-                seatElement.innerHTML = `<div class="avatar-icon"></div><span>Player ${seatNum}</span>`;
-                seatElement.classList.remove('empty');
-            } else {
-                seatElement.innerHTML = `<div class="avatar-icon"></div><span>Empty Seat</span>`;
-                seatElement.classList.add('empty');
-            }
-        }
-    }
-
-    function triggerSpinEffect() {
-        const screens = document.querySelectorAll('.machine-screen');
-        screens.forEach(screen => {
-            screen.style.transition = 'all 0.1s ease';
-            let interval = setInterval(() => {
-                screen.style.opacity = screen.style.opacity === '0.3' ? '1' : '0.3';
-            }, 100);
-            setTimeout(() => {
-                clearInterval(interval);
-                screen.style.opacity = '1';
-            }, 1500);
-        });
-        setTimeout(() => { alert('🦬 African Buffalo Slot Spinning Completed!'); }, 1600);
-    }
-</body>
-</html>
